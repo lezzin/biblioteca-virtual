@@ -2,8 +2,7 @@
 session_start();
 
 // Caso o usuário não esteja logado, ele é movido para a página de login
-if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) 
-{
+if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) {
     echo "<script>alert('Você precisa estar logado para acessar a página!');
     window.location = '../login.php';</script>";
     exit;
@@ -13,8 +12,7 @@ $logado = $_SESSION['UsuarioNome'];
 
 // Botão sair no header apaga a sessão
 // Usuário tem que logar novamente
-if (isset($_POST['sair'])) 
-{
+if (isset($_POST['sair'])) {
     session_unset();
     session_destroy();
     header('Location: ../login.php');
@@ -244,8 +242,7 @@ if (isset($_POST['sair']))
                         <button type="submit" name="submit" id="submit" class="btn btn-success">Adicionar</button>
                     </form>
                     <?php
-                    if (isset($_POST['submit'])) 
-                    {
+                    if (isset($_POST['submit'])) {
                         include_once('../config/config.php');
 
                         // Variáveis
@@ -259,12 +256,9 @@ if (isset($_POST['sair']))
                         $verification = $conexao->query($selectBookName);
 
                         // Caso o resultado não tenha nenhum dado, exibe a mensagem:
-                        if ($verification->num_rows > 0) 
-                        {
+                        if ($verification->num_rows > 0) {
                             echo "<p>Já existe um livro com esse nome</p>";
-                        }
-                        else 
-                        {
+                        } else {
                             // Caso tenha:
                             // Comando SQL novamente
                             $insertBooks = "INSERT INTO livro(nome, ano, preco, quantidade) VALUES ('$bookName', '$bookYear','$bookPrice','$quantity')";

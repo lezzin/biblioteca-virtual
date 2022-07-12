@@ -5,8 +5,7 @@ include_once('../config/config.php');
 // Inicia a sessão
 session_start();
 
-if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) 
-{
+if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) {
     echo "<script>alert('Você precisa estar logado para acessar a página!');
     window.location = '../login.php';</script>";
 }
@@ -176,36 +175,46 @@ function quantityBook()
         <div class="row d-flex justify-content-center align-items-center">
             <?php
 
-            if ($result->num_rows == 0) 
-            {
+            if ($result->num_rows == 0) {
                 echo "<div class='my-5 text-center'>
                         <h3 class='text-danger p-1' id='nothingToShow'>Não há nada para mostrar aqui</h3><br>
                         <h4>Para aparecer algo no catálogo, adicione um livro por aqui: <a href='./index.php#form'>ir para o formulário</a></h4>
                     </div>";
-            }
-            else
-            {
-                while ($data = mysqli_fetch_array($result)) 
-                {
-                    echo "<div class='card m-1  rounded' style='width: 15rem; height: 15rem;' data-aos='fade-up' id='card-book'>
-                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
-                    <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
-                    Ano de lançamento: "  . $data['ano'] . "<br>
-                    Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "<br>
-                    Disponíveis: " . $data['quantidade'] . "<br>
-                    <div class='btn-group pt-1 pb-1' role='group'>
-                    <a href='#alugarLivro' class='btn btn-secondary'>Alugar</a>
-                    <a href='#comprarLivro' class='btn btn-secondary'>Comprar</a>
-                    </div>
-                    <div class='d-flex justify-content-around mt-1 w-50'>
-                    <a href='../config/delete.php?id=$data[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
-                    <a href='edit.php?id=$data[idLivro]'><img src='../public/icons/pencil.svg' width='16' height='16' loading='lazy'></a>
-                    </div>
-                    </div>
-                    </div>";
+            } else {
+                while ($data = mysqli_fetch_array($result)) {
+                    if ($data['quantidade'] == 0) {
+                        echo "
+                        <div class='card m-1  rounded' style='width: 15rem; height: 15rem;' data-aos='fade-up' id='card-book'>
+                            <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
+                                <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
+                                Ano de lançamento: "  . $data['ano'] . "<br>
+                                Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "<br>
+                                <p class='text-danger font-weight-bold'>Indisponível</p>                        
+                                <a href='../config/delete.php?id=$data[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
+                            </div>
+                        </div>";
+                    } else {
+                        echo "
+                        <div class='card m-1  rounded' style='width: 15rem; height: 15rem;' data-aos='fade-up' id='card-book'>
+                            <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
+                                <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
+                                Ano de lançamento: " . $data['ano'] . "<br>
+                                Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "<br>
+                                Disponíveis: " . $data['quantidade'] . "<br>
+                                <div class='btn-group pt-1 pb-1' role='group'>
+                                    <a href='#alugarLivro' class='btn btn-secondary'>Alugar</a>
+                                    <a href='#comprarLivro' class='btn btn-secondary'>Comprar</a>
+                                </div>
+                                <div class='d-flex justify-content-around mt-1 w-50'>
+                                    <a href='../config/delete.php?id=$data[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
+                                    <a href='edit.php?id=$data[idLivro]'><img src='../public/icons/pencil.svg' width='16' height='16' loading='lazy'></a>
+                                </div>
+                            </div>
+                        </div>";
+                    }
                 }
             }
-        ?>
+            ?>
         </div>
     </div>
     <!-- /catalogo -->
@@ -228,24 +237,22 @@ function quantityBook()
                             <small id="dayHelp">1 dia = R$4,00</small>
                             <input type="number" class="form-control" id="dias" name="dias" placeholder="Apenas o número... ex: 2" value="<?php rentNumber(); ?>" aria-describedby="dayHelp" required>
                             <?php
-                            if (isset($_GET['calcularPrecoAluguel'])) 
-                            {
+                            if (isset($_GET['calcularPrecoAluguel'])) {
 
                                 $rentBook = $_GET['nomeLivroAlugado'];
                                 $days = $_GET['dias'];
 
-                                $selectBookToRent = "SELECT idLivro FROM livro WHERE nome LIKE '$rentBook'";
+                                $selectBookToRent = "SELECT idLivro, quantidade FROM livro WHERE nome LIKE '$rentBook'";
                                 $result = $conexao->query($selectBookToRent);
                                 $bookIDDatas = mysqli_fetch_assoc($result);
 
                                 $rentPrice = number_format((4 * $days - (4 * $days * 5 / 100)), 2, ',', '.');
 
-                                if (mysqli_num_rows($result) == 0) 
-                                {
-                                    echo "<small class='text-danger'>Não há livro com esse nome... <br>dica: insira o nome do livro exatamente como ditado acima</small>";
-                                } 
-                                else 
-                                {
+                                if (mysqli_num_rows($result) == 0) {
+                                    echo "<small class='text-danger' id='nomeErradoAluguel'>Não há livro com esse nome... <br>dica: insira o nome do livro exatamente como ditado acima</small>";
+                                } else if ($bookIDDatas['quantidade'] == 0) {
+                                    echo "<small class='text-danger font-weight-bold' id='semEstoqueAluguel'>Não temos esse livro no estoque :/</small>";
+                                } else {
                                     $bookID = $bookIDDatas['idLivro'];
                                     echo "<small>O livro custará R$<span id='rentPrice'>" . $rentPrice . "</span></small>";
                                     echo "<input type='hidden' name='bookID' id='bookId' value='" . $bookID . "'>";
@@ -255,7 +262,7 @@ function quantityBook()
                         </div>
                         <div class="d-flex">
                             <button type="submit" name="calcularPrecoAluguel" id="calcularPrecoAluguel" class="btn btn-primary">Calcular preço</button>
-                            <button type="button" id="btnAluguel" class="btn btn-success ml-1" data-toggle="modal" data-target="#modal-form">Alugar</button>
+                            <button type="button" id="btnAluguel" class="btn btn-success ml-1" data-toggle="modal" data-target="#modal-form" disabled>Alugar</button>
                         </div>
                     </form>
                 </div>
@@ -281,35 +288,29 @@ function quantityBook()
                             <label for="quantidadeLivro">Quantidade</label>
                             <input type="number" class="form-control" name="quantidadeLivro" id="quantidadeLivro" placeholder="Quantidade" required value="<?php quantityBook(); ?>">
                             <?php
-                            if (isset($_GET['calcularCompra'])) 
-                            {
+                            if (isset($_GET['calcularCompra'])) {
                                 $purchaseBookName = $_GET['nomeLivroComprado'];
                                 $quantity = $_GET['quantidadeLivro'];
                                 $purchaseInputs = "SELECT `idLivro`,`preco`,`quantidade` FROM livro WHERE nome LIKE '$purchaseBookName'";
                                 $resultSearch = $conexao->query($purchaseInputs);
                                 $data = mysqli_fetch_array($resultSearch);
 
-                                if ($resultSearch->num_rows == 0) 
-                                {
-                                    echo "<small class='text-danger'>Não há livro com esse nome... <br>dica: insira o nome do livro exatamente como ditado acima</small>";
-                                } 
-                                else if ($data['quantidade'] < $quantity or $quantity == 0) 
-                                {
-                                    echo "<small class='text-danger'>Não há essa quantidade no estoque</small>";
-                                } 
-                                else 
-                                {
+                                if ($resultSearch->num_rows == 0) {
+                                    echo "<small class='text-danger font-weight-bold' id='nomeErradoCompra'>Não há livro com esse nome... <br>dica: insira o nome do livro exatamente como ditado acima</small>";
+                                } else if ($data['quantidade'] < $quantity or $quantity == 0) {
+                                    echo "<small class='text-danger font-weight-bold' id='semEstoqueCompra'>Não há essa quantidade no estoque</small>";
+                                } else {
                                     $bookID = $data['idLivro'];
                                     $price = number_format(($data['preco'] * $quantity - ($data['preco'] * $quantity * 10 / 100)), 2, ',', '.');
                                     echo "<small>O livro custará R$<span id='price'>" . $price . "</span></small>";
                                     echo "<input type='hidden' name='bookPurchasedID' id='bookPurchasedID' value='" . $bookID . "'>";
                                 }
-                            } 
+                            }
                             ?>
                         </div>
                         <div class=" d-flex justify-content-end">
-                            <button type="button" class="btn btn-success mr-1" id="btnCompra" data-toggle="modal" data-target="#modal-form">Comprar</button>
-                            <button type="submit" name="calcularCompra" class="btn btn-primary">Calcular preço</button>
+                            <button type="button" class="btn btn-success mr-1" id="btnCompra" data-toggle="modal" data-target="#modal-form" disabled>Comprar</button>
+                            <button type="submit" name="calcularCompra" id="btnCalculo" class="btn btn-primary">Calcular preço</button>
                         </div>
                     </form>
                 </div>
@@ -393,9 +394,10 @@ function quantityBook()
 <script type="text/javascript">
     AOS.init();
 
-    // Caso não tenha nenhum livro no catálogo, os formulários não são mostrados
-    let $nothingToShow = $("#nothingToShow").html()
     $(document).ready(() => {
+
+        // Caso não tenha nenhum livro no catálogo, os formulários não são mostrados
+        let $nothingToShow = $("#nothingToShow").html()
         if ($nothingToShow != undefined) {
             $("#home").css("display", "none")
             $("#search-area").css("display", "none")
@@ -405,7 +407,38 @@ function quantityBook()
             $("#home").css("display", "block")
             $("body").css("overflow", "visible")
         }
+
+        if ($("#nomeLivro").val().length < 3 || $("#dias").val().length < 1) {
+            $("#btnAluguel").attr("disabled", "");
+            $("#calcularPrecoAluguel").attr("disabled", "");
+        } else {
+            $("#btnAluguel").removeAttr("disabled");
+            $("#calcularPrecoAluguel").removeAttr("disabled");
+        }
+
+        if ($("#nomeLivroComprado").val().length < 3 || $("#quantidadeLivro").val().length < 1) {
+            $("#btnCompra").attr("disabled", "");
+            $("#btnCalculo").attr("disabled", "");
+        } else {
+            $("#btnCompra").removeAttr("disabled");
+            $("#btnCalculo").removeAttr("disabled");
+        };
+
+        if ($("#semEstoqueCompra").html() !== undefined || $("#nomeErradoCompra").html() !== undefined) {
+            $("#btnCompra").prop("disabled", "true");
+            $("#btnCalculo").prop("disabled", "true");
+        };
+        if ($("#nomeErradoCompra").html() !== undefined) {
+            $("#btnCompra").prop("disabled", "true");
+            $("#btnCalculo").prop("disabled", "true");
+        };
+
+        if ($("#semEstoqueAluguel").html() !== undefined || $("#nomeErradoAluguel").html() !== undefined) {
+            $("#btnAluguel").prop("disabled", "true");
+            $("#calcularPrecoAluguel").prop("disabled", "true");
+        }
     });
+
 
     $(window).scroll(function() {
         if ($(this).scrollTop() > 100) {
@@ -423,8 +456,7 @@ function quantityBook()
         }
     });
 
-    $quantity = $("#quantidadeLivro").val()
-    if ($quantity == 0) {
+    if ($("#quantidadeLivro").val() == 0) {
         $("#btnCompra").prop("disabled", "true");
     }
 
@@ -469,12 +501,53 @@ function quantityBook()
     $("#form-addBook").click(() => {
         if (confirm("Você será dimensionado para uma página na mesma janela")) {
             $("#form-addBook").attr("href", "./index.php#form");
-        } else {};
-    })
+        }
+    });
     $("#catalog-home").click(() => {
         if (confirm("Voltar para a página inicial?")) {
             $("#catalog-home").attr("href", "./index.php");
-        } else {};
+        }
+    });
+
+    // Botões de aluguel
+    $("#nomeLivro").on("input", () => {
+        if ($("#nomeLivro").val().length < 3 || $("#dias").val().length < 1) {
+            $("#btnAluguel").attr("disabled", "");
+            $("#calcularPrecoAluguel").attr("disabled", "");
+            return;
+        }
+        $("#btnAluguel").removeAttr("disabled");
+        $("#calcularPrecoAluguel").removeAttr("disabled");
+    });
+
+    $("#dias").on("input", () => {
+        if ($("#nomeLivro").val().length < 3 || $("#dias").val().length < 1) {
+            $("#btnAluguel").attr("disabled", "");
+            $("#calcularPrecoAluguel").attr("disabled", "");
+            return;
+        }
+        $("#btnAluguel").removeAttr("disabled");
+        $("#calcularPrecoAluguel").removeAttr("disabled");
+    });
+
+    //Botões de compra
+    $("#nomeLivroComprado").on("input", () => {
+        if ($("#nomeLivroComprado").val().length < 3 || $("#quantidadeLivro").val().length < 1) {
+            $("#btnCompra").attr("disabled", "");
+            $("#btnCalculo").attr("disabled", "");
+            return;
+        }
+        $("#btnCompra").removeAttr("disabled");
+        $("#btnCalculo").removeAttr("disabled");
+    });
+    $("#quantidadeLivro").on("input", () => {
+        if ($("#nomeLivroComprado").val().length < 3 || $("#quantidadeLivro").val().length < 1) {
+            $("#btnCompra").attr("disabled", "");
+            $("#btnCalculo").attr("disabled", "");
+            return;
+        }
+        $("#btnCompra").removeAttr("disabled");
+        $("#btnCalculo").removeAttr("disabled");
     });
 </script>
 <script src="../public/js/theme.js"></script>
