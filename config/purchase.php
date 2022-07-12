@@ -34,17 +34,30 @@ if (isset($_POST['enviarForm']))
         $searchCommand = "SELECT idLivro FROM livro WHERE idLivro LIKE '$bookIdReference'";
         $searchResult = $conexao->query($searchCommand);
         $bookIDDatas = mysqli_fetch_assoc($searchResult);
-        $bookID = $bookIDDatas['idLivro'];
 
-        // Função para diminuir a quantidade de livros no banco de dados, de acordo com a quantidade escolhida pelo cliente
-        $sqlUpdate = "UPDATE livro SET quantidade = quantidade-$quantity where idLivro = $bookID";
-        $updateResult = $conexao->query($sqlUpdate);
+        if($searchResult->num_rows==0)
+        {
+            echo "
+            <script>
+            alert('Não existe livro com esse nome');
+            window.location='../pages/catalog.php';
+            </script>";
+        }
+        else
+        {
+            $bookID = $bookIDDatas['idLivro'];
+            // Função para diminuir a quantidade de livros no banco de dados, de acordo com a quantidade escolhida pelo cliente
+            $sqlUpdate = "UPDATE livro SET quantidade = quantidade-$quantity where idLivro = $bookID";
+            $updateResult = $conexao->query($sqlUpdate);
+    
+            $insertDatas = "INSERT INTO compra(preco, quantidade, fk_livro, fk_cliente) VALUES ('$price', '$quantity', $bookID, '$clientID')";
+            $insertResult = $conexao->query($insertDatas);
+            echo "
+            <script>
+            alert('Ação realizada com sucesso');
+            window.location='../pages/catalog.php';
+            </script>";
+        }
 
-        $insertDatas = "INSERT INTO compra(preco, quantidade, fk_livro, fk_cliente) VALUES ('$price', '$quantity', $bookID, '$clientID')";
-        $insertResult = $conexao->query($insertDatas);
-        echo "<script>alert('Ação realizada com sucesso');
-        window.location='../pages/catalog.php';
-        </script>";
-        exit;
     }
 }

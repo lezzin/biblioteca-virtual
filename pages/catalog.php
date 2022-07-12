@@ -5,53 +5,67 @@ include_once('../config/config.php');
 // Inicia a sessão
 session_start();
 
-if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) {
+if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) 
+{
     echo "<script>alert('Você precisa estar logado para acessar a página!');
     window.location = '../login.php';</script>";
+    exit;
 }
 
 $user = $_SESSION['UsuarioNome'];
 
-$viewBooks = "SELECT * FROM livro ORDER BY idLivro DESC";
+$viewBooks = "SELECT * FROM livro ORDER BY nome ASC";
 $result = $conexao->query($viewBooks);
 
 // Funções auxiliares
 // Quando o usuário atualizar a página, os valores dos inputs não resetarão, como exemplo na linha 213
 function rentBook()
 {
-    if (isset($_GET['calcularPrecoAluguel'])) {
+    if (isset($_GET['calcularPrecoAluguel'])) 
+    {
         $rentBook = $_GET['nomeLivroAlugado'];
         echo $rentBook;
-    } else {
+    }
+    else
+    {
         echo "";
     }
 }
 function rentNumber()
 {
-    if (isset($_GET['calcularPrecoAluguel'])) {
+    if (isset($_GET['calcularPrecoAluguel'])) 
+    {
         $rentDays = $_GET['dias'];
         echo $rentDays;
-    } else {
+    }
+    else 
+    {
         echo "";
     }
 }
 
 function purchaseBook()
 {
-    if (isset($_GET['calcularCompra'])) {
+    if (isset($_GET['calcularCompra'])) 
+    {
         $purchaseBook = $_GET['nomeLivroComprado'];
         echo $purchaseBook;
-    } else {
+    }
+    else
+    {
         echo "";
     }
 }
 
 function quantityBook()
 {
-    if (isset($_GET['quantidadeLivro'])) {
+    if (isset($_GET['quantidadeLivro'])) 
+    {
         $quantidade = $_GET['quantidadeLivro'];
         echo $quantidade;
-    } else {
+    } 
+    else 
+    {
         echo "";
     }
 }
@@ -87,7 +101,6 @@ function quantityBook()
         html {
             scroll-behavior: smooth;
         }
-
         .scrollToTop {
             font-size: 1.4em;
             position: fixed;
@@ -95,7 +108,20 @@ function quantityBook()
             right: 45px;
             display: none;
         }
-    </style>
+        .reverse-gradient-text {
+            background: linear-gradient(270deg, #3bd9d9,#b527cf);
+        }
+        .gradient-text {
+            background: linear-gradient(270deg, #b527cf, #3bd9d9);
+        }
+        .gradient-text,        
+        .reverse-gradient-text {
+            font-weight: bold;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+</style>
 </head>
 
 <body style="font-family: 'Source Sans Pro', sans-serif;">
@@ -175,16 +201,21 @@ function quantityBook()
         <div class="row d-flex justify-content-center align-items-center">
             <?php
 
-            if ($result->num_rows == 0) {
+            if ($result->num_rows == 0) 
+            {
                 echo "<div class='my-5 text-center'>
                         <h3 class='text-danger p-1' id='nothingToShow'>Não há nada para mostrar aqui</h3><br>
                         <h4>Para aparecer algo no catálogo, adicione um livro por aqui: <a href='./index.php#form'>ir para o formulário</a></h4>
                     </div>";
-            } else {
-                while ($data = mysqli_fetch_array($result)) {
-                    if ($data['quantidade'] == 0) {
+            }
+            else 
+            {
+                while ($data = mysqli_fetch_array($result)) 
+                {
+                    if ($data['quantidade'] == 0) 
+                    {
                         echo "
-                        <div class='card m-1  rounded' style='width: 15rem; height: 15rem;' data-aos='fade-up' id='card-book'>
+                        <div class='card m-1 rounded bg-secondary' style='width: 16rem; height: 16rem;' data-aos='fade-up' id='card-book'>
                             <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
                                 <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
                                 Ano de lançamento: "  . $data['ano'] . "<br>
@@ -193,9 +224,11 @@ function quantityBook()
                                 <a href='../config/delete.php?id=$data[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
                             </div>
                         </div>";
-                    } else {
+                    } 
+                    else 
+                    {
                         echo "
-                        <div class='card m-1  rounded' style='width: 15rem; height: 15rem;' data-aos='fade-up' id='card-book'>
+                        <div class='card m-1 rounded' style='width: 16rem; height: 16rem;' data-aos='fade-up' id='card-book'>
                             <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
                                 <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
                                 Ano de lançamento: " . $data['ano'] . "<br>
@@ -227,7 +260,7 @@ function quantityBook()
                 <!-- formulario do aluguel de livros -->
                 <div class="col" data-aos="fade-right">
                     <form class="px-4 py-3" action="./catalog.php#alugarLivro" method="GET">
-                        <h1 class="text-center mb-5">Alugar um livro</h1>
+                        <h1 class="text-center mb-5 reverse-gradient-text">Alugar um livro</h1>
                         <div class="form-group">
                             <label for="nomeLivro">Nome do livro</label>
                             <input type="text" name="nomeLivroAlugado" class="form-control" id="nomeLivro" value="<?php rentBook(); ?>" placeholder=" Nome do livro" required>
@@ -237,25 +270,36 @@ function quantityBook()
                             <small id="dayHelp">1 dia = R$4,00</small>
                             <input type="number" class="form-control" id="dias" name="dias" placeholder="Apenas o número... ex: 2" value="<?php rentNumber(); ?>" aria-describedby="dayHelp" required>
                             <?php
-                            if (isset($_GET['calcularPrecoAluguel'])) {
-
+                            if (isset($_GET['calcularPrecoAluguel'])) 
+                            {
                                 $rentBook = $_GET['nomeLivroAlugado'];
                                 $days = $_GET['dias'];
 
                                 $selectBookToRent = "SELECT idLivro, quantidade FROM livro WHERE nome LIKE '$rentBook'";
                                 $result = $conexao->query($selectBookToRent);
-                                $bookIDDatas = mysqli_fetch_assoc($result);
-
-                                $rentPrice = number_format((4 * $days - (4 * $days * 5 / 100)), 2, ',', '.');
-
-                                if (mysqli_num_rows($result) == 0) {
-                                    echo "<small class='text-danger' id='nomeErradoAluguel'>Não há livro com esse nome... <br>dica: insira o nome do livro exatamente como ditado acima</small>";
-                                } else if ($bookIDDatas['quantidade'] == 0) {
-                                    echo "<small class='text-danger font-weight-bold' id='semEstoqueAluguel'>Não temos esse livro no estoque :/</small>";
-                                } else {
-                                    $bookID = $bookIDDatas['idLivro'];
-                                    echo "<small>O livro custará R$<span id='rentPrice'>" . $rentPrice . "</span></small>";
-                                    echo "<input type='hidden' name='bookID' id='bookId' value='" . $bookID . "'>";
+                                
+                                $rentPrice = number_format((4 * $days), 2, ',', '.');
+                                if (mysqli_errno($conexao))
+                                {
+                                    echo "<small class='text-danger font-weight-bold' id='nomeInvalidoAluguel'>Nome inválido, retire o caractere</small>";
+                                }
+                                else
+                                {
+                                    $bookIDDatas = mysqli_fetch_assoc($result);
+                                    if (mysqli_num_rows($result) == 0) 
+                                    {
+                                        echo "<small class='text-danger font-weight-bold' id='nomeErradoAluguel'>Não há livro com esse nome... <br>dica: insira o nome do livro exatamente como ditado acima</small>";
+                                    } 
+                                    else if ($bookIDDatas['quantidade'] == 0) 
+                                    {
+                                        echo "<small class='text-danger font-weight-bold' id='semEstoqueAluguel'>Não temos esse livro no estoque :/</small>";
+                                    } 
+                                    else 
+                                    {
+                                        $bookID = $bookIDDatas['idLivro'];
+                                        echo "<small>O livro custará R$<span id='rentPrice'>" . $rentPrice . "</span></small>";
+                                        echo "<input type='hidden' name='bookID' id='bookId' value='" . $bookID . "'>";
+                                    }
                                 }
                             }
                             ?>
@@ -278,8 +322,9 @@ function quantityBook()
                     <img src="../public/img/background.png" width="400" height="400" loading="lazy">
                 </div>
                 <div class="col" data-aos="fade-left">
+                    <h3 class="text-center gradient-text">Comprando o livro, você terá 10% de desconto</h3>
                     <form class="px-4 py-3" action="./catalog.php#comprarLivro" method="GET">
-                        <h1 class="text-center mb-5">Comprar um livro</h1>
+                        <h1 class="text-center gradient-text mb-5">Comprar um livro</h1>
                         <div class="form-group">
                             <label for="nomeLivroComprado">Nome do livro</label>
                             <input type="text" class="form-control" name="nomeLivroComprado" id="nomeLivroComprado" placeholder="Nome do livro" required value="<?php purchaseBook(); ?>">
@@ -288,22 +333,34 @@ function quantityBook()
                             <label for="quantidadeLivro">Quantidade</label>
                             <input type="number" class="form-control" name="quantidadeLivro" id="quantidadeLivro" placeholder="Quantidade" required value="<?php quantityBook(); ?>">
                             <?php
-                            if (isset($_GET['calcularCompra'])) {
+                            if (isset($_GET['calcularCompra'])) 
+                            {
                                 $purchaseBookName = $_GET['nomeLivroComprado'];
                                 $quantity = $_GET['quantidadeLivro'];
                                 $purchaseInputs = "SELECT `idLivro`,`preco`,`quantidade` FROM livro WHERE nome LIKE '$purchaseBookName'";
                                 $resultSearch = $conexao->query($purchaseInputs);
-                                $data = mysqli_fetch_array($resultSearch);
-
-                                if ($resultSearch->num_rows == 0) {
-                                    echo "<small class='text-danger font-weight-bold' id='nomeErradoCompra'>Não há livro com esse nome... <br>dica: insira o nome do livro exatamente como ditado acima</small>";
-                                } else if ($data['quantidade'] < $quantity or $quantity == 0) {
-                                    echo "<small class='text-danger font-weight-bold' id='semEstoqueCompra'>Não há essa quantidade no estoque</small>";
-                                } else {
-                                    $bookID = $data['idLivro'];
-                                    $price = number_format(($data['preco'] * $quantity - ($data['preco'] * $quantity * 10 / 100)), 2, ',', '.');
-                                    echo "<small>O livro custará R$<span id='price'>" . $price . "</span></small>";
-                                    echo "<input type='hidden' name='bookPurchasedID' id='bookPurchasedID' value='" . $bookID . "'>";
+                                if (mysqli_errno($conexao))
+                                {
+                                    echo "<small class='text-danger font-weight-bold' id='nomeInvalidoCompra'>Nome inválido, retire o caractere</small>";
+                                }
+                                else
+                                {
+                                    $data = mysqli_fetch_array($resultSearch);
+                                    if ($resultSearch->num_rows == 0) 
+                                    {
+                                        echo "<small class='text-danger font-weight-bold' id='nomeErradoCompra'>Não há livro com esse nome... <br>dica: insira o nome do livro exatamente como ditado acima</small>";
+                                    } 
+                                    else if ($data['quantidade'] < $quantity or $quantity == 0) 
+                                    {
+                                        echo "<small class='text-danger font-weight-bold' id='semEstoqueCompra'>Não há essa quantidade no estoque</small>";
+                                    } 
+                                    else 
+                                    {
+                                        $bookID = $data['idLivro'];
+                                        $price = number_format(($data['preco'] * $quantity - ($data['preco'] * $quantity * 10 / 100)), 2, ',', '.');
+                                        echo "<small>O livro custará R$<span id='price'>" . $price . "</span></small>";
+                                        echo "<input type='hidden' name='bookPurchasedID' id='bookPurchasedID' value='" . $bookID . "'>";
+                                    }
                                 }
                             }
                             ?>
@@ -342,7 +399,7 @@ function quantityBook()
                         </div>
                         <div class="form-group">
                             <label for="cpf" class="col-form-label">CPF</label>
-                            <input type="password" class="form-control" name="cpf-usuario" id="cpf" required>
+                            <input type="number" class="form-control" name="cpf-usuario" id="cpf" required>
                         </div>
                         <div class="form-group">
                             <label for="tipo-de-compra" class="col-form-label">Aluguel ou compra?</label>
@@ -408,34 +465,21 @@ function quantityBook()
             $("body").css("overflow", "visible")
         }
 
-        if ($("#nomeLivro").val().length < 3 || $("#dias").val().length < 1) {
-            $("#btnAluguel").attr("disabled", "");
-            $("#calcularPrecoAluguel").attr("disabled", "");
-        } else {
-            $("#btnAluguel").removeAttr("disabled");
-            $("#calcularPrecoAluguel").removeAttr("disabled");
-        }
+       checkBtnRent();
+       checkBtnPurchase();
 
-        if ($("#nomeLivroComprado").val().length < 3 || $("#quantidadeLivro").val().length < 1) {
+        if ($("#semEstoqueCompra").html() !== undefined || $("#nomeErradoCompra").html() !== undefined || $("#nomeInvalidoCompra").html() !== undefined) {
             $("#btnCompra").attr("disabled", "");
             $("#btnCalculo").attr("disabled", "");
-        } else {
-            $("#btnCompra").removeAttr("disabled");
-            $("#btnCalculo").removeAttr("disabled");
-        };
-
-        if ($("#semEstoqueCompra").html() !== undefined || $("#nomeErradoCompra").html() !== undefined) {
-            $("#btnCompra").prop("disabled", "true");
-            $("#btnCalculo").prop("disabled", "true");
         };
         if ($("#nomeErradoCompra").html() !== undefined) {
-            $("#btnCompra").prop("disabled", "true");
-            $("#btnCalculo").prop("disabled", "true");
+            $("#btnCompra").attr("disabled", "");
+            $("#btnCalculo").attr("disabled", "");
         };
 
-        if ($("#semEstoqueAluguel").html() !== undefined || $("#nomeErradoAluguel").html() !== undefined) {
-            $("#btnAluguel").prop("disabled", "true");
-            $("#calcularPrecoAluguel").prop("disabled", "true");
+        if ($("#semEstoqueAluguel").html() !== undefined || $("#nomeErradoAluguel").html() !== undefined || $("#nomeInvalidoAluguel").html() !== undefined) {
+            $("#btnAluguel").attr("disabled", "");
+            $("#calcularPrecoAluguel").attr("disabled", "");
         }
     });
 
@@ -457,7 +501,7 @@ function quantityBook()
     });
 
     if ($("#quantidadeLivro").val() == 0) {
-        $("#btnCompra").prop("disabled", "true");
+        $("#btnCompra").attr("disabled", "");
     }
 
     // Variáveis formulário de aluguel
@@ -469,6 +513,7 @@ function quantityBook()
     let purchase = $("#price").text();
     // Transformando variável do PHP em variável JS
     let quantity = "<?php quantityBook() ?>";
+
     let bookPurchasedID = $("#bookPurchasedID").val();
 
     // Condições para cada opção do input select do modal (linha 331)
@@ -477,7 +522,7 @@ function quantityBook()
         $('#showPrice').css('display', 'block');
 
         if (valueSelect == '---') {
-            $("#btn-submit").prop("disabled", "true");
+            $("#btn-submit").attr("disabled", "");
             $('#showMoreInformations').css('display', 'none');
             $("#showPrice").val("Por favor, selecione uma das opções");
         } else {
@@ -487,14 +532,18 @@ function quantityBook()
         if (valueSelect == 'Aluguel') {
             $("#form-submit").attr("action", "../config/rent.php");
             $("#auxiliarInput").val(bookID);
+            // Aqui, fram usados os operadores ternários
             (rent == '') ? $('#showPrice').val('Calcule o preço antes de efetuar o empréstimo'): $('#showPrice').val("Esse é o preço do aluguel: R$" + rent);
-            (days == '') ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").prop("disabled", "true"): $('#showMoreInformations').val("O livro será alugado por: " + days + " dias") && $("#btn-submit").removeAttr("disabled");;
+            (days == '') ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").attr("disabled", "") : $('#showMoreInformations').val("O livro será alugado por: " + days + " dias") && $("#btn-submit").removeAttr("disabled");;
+            ($("#nomeErradoAluguel").html() !== undefined || $("#nomeErradoCompra").html() !== undefined) ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").attr("disabled", "") && $('#showPrice').val('Insira um nome de livro válido'): $('#showMoreInformations').css("display", "block") && $("#btn-submit").removeAttr("disabled");
         }
         if (valueSelect == 'Compra') {
             $("#form-submit").attr("action", "../config/purchase.php");
             $("#auxiliarInput").val(bookPurchasedID);
             (purchase == '') ? $('#showPrice').val('Calcule o preço antes de efetuar a compra'): $('#showPrice').val("Esse é o preço do livro: R$" + purchase);
-            (quantity == '') ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").prop("disabled", "true"): $('#showMoreInformations').val("Quantidade de livros a serem comprados: " + quantity + " livro(s)") && $("#btn-submit").removeAttr("disabled");
+            (quantity == '') ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").attr("disabled", "") : $('#showMoreInformations').val("Quantidade de livros a serem comprados: " + quantity + " livro(s)") && $("#btn-submit").removeAttr("disabled");
+            ($("#nomeErradoCompra").html() !== undefined || $("#nomeErradoAluguel").html() !== undefined) ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").attr("disabled", "") && $('#showPrice').val('Insira um nome de livro válido'): $('#showMoreInformations').css("display", "block") && $("#btn-submit").removeAttr("disabled");
+
         }
     });
 
@@ -509,8 +558,8 @@ function quantityBook()
         }
     });
 
-    // Botões de aluguel
-    $("#nomeLivro").on("input", () => {
+    // Funções que habilitam/desabilitam os botões
+    function checkBtnRent() {        
         if ($("#nomeLivro").val().length < 3 || $("#dias").val().length < 1) {
             $("#btnAluguel").attr("disabled", "");
             $("#calcularPrecoAluguel").attr("disabled", "");
@@ -518,37 +567,25 @@ function quantityBook()
         }
         $("#btnAluguel").removeAttr("disabled");
         $("#calcularPrecoAluguel").removeAttr("disabled");
-    });
+    };
+    function checkBtnPurchase() {            
+        if ($("#nomeLivroComprado").val().length < 3 || $("#quantidadeLivro").val().length < 1) {
+            $("#btnCompra").attr("disabled", "");
+            $("#btnCalculo").attr("disabled", "");
+            return;
+        }
+        $("#btnCompra").removeAttr("disabled");
+        $("#btnCalculo").removeAttr("disabled");
+    };
 
-    $("#dias").on("input", () => {
-        if ($("#nomeLivro").val().length < 3 || $("#dias").val().length < 1) {
-            $("#btnAluguel").attr("disabled", "");
-            $("#calcularPrecoAluguel").attr("disabled", "");
-            return;
-        }
-        $("#btnAluguel").removeAttr("disabled");
-        $("#calcularPrecoAluguel").removeAttr("disabled");
-    });
+    // Botões de aluguel
+    $("#nomeLivro").on("input", checkBtnRent);
+    $("#dias").on("input", checkBtnRent);
 
     //Botões de compra
-    $("#nomeLivroComprado").on("input", () => {
-        if ($("#nomeLivroComprado").val().length < 3 || $("#quantidadeLivro").val().length < 1) {
-            $("#btnCompra").attr("disabled", "");
-            $("#btnCalculo").attr("disabled", "");
-            return;
-        }
-        $("#btnCompra").removeAttr("disabled");
-        $("#btnCalculo").removeAttr("disabled");
-    });
-    $("#quantidadeLivro").on("input", () => {
-        if ($("#nomeLivroComprado").val().length < 3 || $("#quantidadeLivro").val().length < 1) {
-            $("#btnCompra").attr("disabled", "");
-            $("#btnCalculo").attr("disabled", "");
-            return;
-        }
-        $("#btnCompra").removeAttr("disabled");
-        $("#btnCalculo").removeAttr("disabled");
-    });
+    $("#nomeLivroComprado").on("input", checkBtnPurchase);
+    $("#quantidadeLivro").on("input", checkBtnPurchase);
+
 </script>
 <script src="../public/js/theme.js"></script>
 <script src="../public/js/pace.js"></script>

@@ -14,7 +14,6 @@ $logado = $_SESSION['UsuarioNome'];
 // Usuário tem que logar novamente
 if (isset($_POST['sair'])) {
     session_unset();
-    session_destroy();
     header('Location: ../login.php');
     exit;
 }

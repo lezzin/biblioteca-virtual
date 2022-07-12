@@ -1,19 +1,17 @@
 <?php
 session_start();
 
-if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) 
-{
+if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) {
     echo "<script>alert('Você precisa estar logado para acessar a página!');
     window.location = '../login.php';</script>";
+    exit;
 }
 
 if ($_SESSION['UsuarioID'] != 1) 
-{
+{    
     echo "<script>alert('Você não possui direitos para acessar a página!'); window.location = 'catalog.php';</script>";
-}
-else 
+} else 
 {
-
     if (!empty($_GET['id'])) 
     {
 
@@ -33,7 +31,7 @@ else
                 $priceValue = $data['preco'];
                 $quantityValue = $data['quantidade'];
             }
-        }
+        } 
         else 
         {
             header('Location: ../pages/catalog.php');

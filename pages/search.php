@@ -116,19 +116,41 @@ $logado = $_SESSION['UsuarioNome'];
             <?php
             // Aqui é onde são mostrados os resultados da pesquisa
             // No caso, é criado um card com as informações do livro, mas poderia ser uma lista ou tabela
-            while ($db = mysqli_fetch_array($searchResults)) {
-                echo "<div class='card m-1  rounded' style='width: 15rem; height: 15rem;' tabindex='0'>
-                <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
-                <h5 class='card-title'>" . $db['nome'] . "</h5>
-                Ano de lançamento: "  . $db['ano'] . "<br>
-                Preço do livro: R$" . str_replace('.', ',', $db['preco']) . "<br>
-                Quantidade: " . $db['quantidade'] . "
-                <div class='btn-group pt-1 pb-1' role='group'>
-                <a href='catalog.php#alugarLivro' class='btn btn-secondary'>Alugar</a>
-                <a href='catalog.php#comprarLivro' class='btn btn-secondary'>Comprar</a>
-                </div>
-                </div>
-                </div>";
+            while ($db = mysqli_fetch_array($searchResults)) 
+            {
+                if ($db['quantidade'] == 0) 
+                {
+                    echo "
+                    <div class='card m-1  rounded' style='width: 16rem; height: 16rem;' data-aos='fade-up' id='card-book'>
+                        <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
+                            <h5 class='card-title' tabindex='0'>" . $db['nome'] . "</h5>
+                            Ano de lançamento: "  . $db['ano'] . "<br>
+                            Preço do livro: R$" . str_replace('.', ',', $db['preco']) . "<br>
+                            <p class='text-danger font-weight-bold'>Indisponível</p>                        
+                            <a href='../config/delete.php?id=$db[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
+                        </div>
+                    </div>";
+                } 
+                else 
+                {
+                    echo "
+                    <div class='card m-1  rounded' style='width: 16rem; height: 16rem;' data-aos='fade-up' id='card-book'>
+                        <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
+                            <h5 class='card-title' tabindex='0'>" . $db['nome'] . "</h5>
+                            Ano de lançamento: " . $db['ano'] . "<br>
+                            Preço do livro: R$" . str_replace('.', ',', $db['preco']) . "<br>
+                            Disponíveis: " . $db['quantidade'] . "<br>
+                            <div class='btn-group pt-1 pb-1' role='group'>
+                                <a href='#alugarLivro' class='btn btn-secondary'>Alugar</a>
+                                <a href='#comprarLivro' class='btn btn-secondary'>Comprar</a>
+                            </div>
+                            <div class='d-flex justify-content-around mt-1 w-50'>
+                                <a href='../config/delete.php?id=$db[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
+                                <a href='edit.php?id=$db[idLivro]'><img src='../public/icons/pencil.svg' width='16' height='16' loading='lazy'></a>
+                            </div>
+                        </div>
+                    </div>";
+                }
             }
             ?>
         </div>

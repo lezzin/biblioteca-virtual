@@ -4,7 +4,6 @@ session_start();
 
 if (isset($_POST['enviarForm'])) 
 {
-
     include_once('config.php');
 
     // Verificando se os dados existem no banco de dados
@@ -33,20 +32,30 @@ if (isset($_POST['enviarForm']))
         $noWord = preg_replace('/[^\d\,]/', '', $_POST['precoConta']);
         // E aqui um comando para trocar a vírgula por ponto
         $price = str_replace(",", ".", $noWord);
-
+        
         // Comando para pegar o id do livro alugado/comprado
         $bookIdReference = $_POST['livro'];
         $searchCommand = "SELECT idLivro FROM livro WHERE idLivro LIKE '$bookIdReference'";
         $searchResult = $conexao->query($searchCommand);
-        $bookIDDatas = mysqli_fetch_assoc($searchResult);
-        $bookID = $bookIDDatas['idLivro'];
 
-
-        $insertDatas = "INSERT INTO emprestimo(inicio, termino, preco, fk_livro, fk_cliente) VALUES ('$currentDate', '$deliveryDate', $price, $bookID, $clientID)";
-        $insertResult = $conexao->query($insertDatas);
-        echo "
-        <script>alert('Ação realizada com sucesso');
-        window.location='../pages/catalog.php';
-        </script>";
+        if($searchResult->num_rows==0)
+        {
+            echo "
+            <script>
+            alert('Não existe livro com esse nome');
+            window.location='../pages/catalog.php';
+            </script>";        
+        }
+        else
+        {
+            $bookIDDatas = mysqli_fetch_assoc($searchResult);
+            $bookID = $bookIDDatas['idLivro'];
+            $insertDatas = "INSERT INTO emprestimo(inicio, termino, preco, fk_livro, fk_cliente) VALUES ('$currentDate', '$deliveryDate', $price, $bookID, $clientID)";
+            $insertResult = $conexao->query($insertDatas);
+            echo "
+            <script>alert('Ação realizada com sucesso');
+            window.location='../pages/catalog.php';
+            </script>";
+        }   
     }
 }
