@@ -4,7 +4,7 @@ Nesse projeto, você precisará do MySQL e XAMPP para poder utilizar a página..
 
 ## Tutoriais
 
-1- Baixe o arquivo rar do projeto e extraia ele em sua área de trabalho, agora, você irá mover a pasta extraída para o seguinte local: C:\xampp\htdocs\mova-a-pasta-aqui<br>
+1- Baixe o arquivo zip do projeto e extraia ele em sua área de trabalho, agora, você irá mover a pasta extraída para o seguinte local: C:\xampp\htdocs\mova-a-pasta-aqui<br>
 
 2- Agora, quando baixados e instalados, primeiro abra o XAMPP e clique em Start para o SQL e Apache.
 
