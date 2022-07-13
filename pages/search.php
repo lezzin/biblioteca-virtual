@@ -84,30 +84,41 @@ $logado = $_SESSION['UsuarioNome'];
         <?php
 
         // Se existe o botão pesquisar, que está na página do catálogo e se o valor do input é diferente de nada (espaços em branco)
-        if (isset($_POST['pesquisar']) && trim($_POST['search']) !== "") {
-
+        if (isset($_POST['pesquisar']) and trim($_POST['search']) !== "") {
             // Valor do input (nome do livro)
             $bookName = $_POST['search'];
             // Pesquisa do nome do livro no banco de dados
             // % identifica se a palavra descrita no input está no fim, meio ou começo do nome de um livro, assim, podem haver mais de um resultado
             $search = "SELECT * FROM livro WHERE nome LIKE '%$bookName%' ORDER BY nome";
             $searchResults = $conexao->query($search);
-            $rowsOfData = mysqli_num_rows($searchResults);
 
-            // Caso não exista nenhum livro com o nome pesquisado
-            if ($rowsOfData == 0) {
-                echo "<h3 class='text-center text-danger'>Não houve nenhum resultado para a busca.</h3>";
-                // Caso tenha, será exibido a quantidade de resultados
-            } else if ($rowsOfData == 1) {
-                echo "<h3 class='text-center text-danger'>Foi encontrado " . $rowsOfData . " resultado para a busca.</h3>";
-            } else {
-                echo "<h3 class='text-center text-danger'>Foram encontrados " . $rowsOfData . " resultados para a busca.</h3>";
-            }
-            // Caso o input de pesquisa seja nulo ou tenha espaços em branco, o usuário é movido novamente para o catálogo
-        } else {
-            echo "<script>alert('Preencha o campo de pesquisa.');
+            if (mysqli_errno($conexao)) {
+                echo "
+                <script>
+                alert('Preencha o campo de pesquisa adequadamente.');
                 window.location = 'catalog.php';
-            </script>;";
+                </script>";
+                exit;
+            } else {
+                $rowsOfData = mysqli_num_rows($searchResults);
+                // Caso não exista nenhum livro com o nome pesquisado
+                if ($rowsOfData == 0) {
+                    echo "<h3 class='text-center text-danger'>Não houve nenhum resultado para a busca.</h3>";
+                    // Caso tenha, será exibido a quantidade de resultados
+                } else if ($rowsOfData == 1) {
+                    echo "<h3 class='text-center text-danger'>Foi encontrado " . $rowsOfData . " resultado para a busca.</h3>";
+                } else {
+                    echo "<h3 class='text-center text-danger'>Foram encontrados " . $rowsOfData . " resultados para a busca.</h3>";
+                }
+            }
+        }
+        // Caso o input de pesquisa seja nulo ou tenha espaços em branco, o usuário é movido novamente para o catálogo
+        else {
+            echo "
+            <script>
+            alert('Preencha o campo de pesquisa.');
+            window.location = 'catalog.php';
+            </script>";
             exit;
         }
         ?>
@@ -116,11 +127,17 @@ $logado = $_SESSION['UsuarioNome'];
             <?php
             // Aqui é onde são mostrados os resultados da pesquisa
             // No caso, é criado um card com as informações do livro, mas poderia ser uma lista ou tabela
-            while ($db = mysqli_fetch_array($searchResults)) 
-            {
-                if ($db['quantidade'] == 0) 
-                {
-                    echo "
+            if (mysqli_errno($conexao)) {
+                echo "
+                <script>
+                alert('Preencha o campo de pesquisa adequadamente.');
+                window.location = 'catalog.php';
+                </script>";
+                exit;
+            } else {
+                while ($db = mysqli_fetch_array($searchResults)) {
+                    if ($db['quantidade'] == 0) {
+                        echo "
                     <div class='card m-1  rounded' style='width: 16rem; height: 16rem;' data-aos='fade-up' id='card-book'>
                         <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
                             <h5 class='card-title' tabindex='0'>" . $db['nome'] . "</h5>
@@ -130,10 +147,8 @@ $logado = $_SESSION['UsuarioNome'];
                             <a href='../config/delete.php?id=$db[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
                         </div>
                     </div>";
-                } 
-                else 
-                {
-                    echo "
+                    } else {
+                        echo "
                     <div class='card m-1  rounded' style='width: 16rem; height: 16rem;' data-aos='fade-up' id='card-book'>
                         <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
                             <h5 class='card-title' tabindex='0'>" . $db['nome'] . "</h5>
@@ -150,6 +165,7 @@ $logado = $_SESSION['UsuarioNome'];
                             </div>
                         </div>
                     </div>";
+                    }
                 }
             }
             ?>
@@ -179,15 +195,14 @@ $logado = $_SESSION['UsuarioNome'];
 
 <script>
     // Caso não tenha nenhum resultado, em 5 segundos o usuário é movido para a página de catálogo
-    resultNumber = "<?php echo $rowsOfData; ?>";
-    timer = 5;
-    message = document.querySelector("#message");
+    $resultNumber = "<?php echo $rowsOfData; ?>";
+    $timer = 5;
     $(document).ready(() => {
-        if (resultNumber == 0 || resultNumber == '') {
+        if ($resultNumber == 0 || $resultNumber == '') {
             $("#footer").removeClass("d-flex");
             $("#footer").addClass("d-none");
             setInterval(() => {
-                message.innerHTML = `Você será redimensionado em: <b>${timer--}</b>`;
+                $("#message").html("Você será redimensionado em: 0" + $timer--)
             }, 1000);
             setTimeout(() => {
                 window.location.assign("catalog.php")

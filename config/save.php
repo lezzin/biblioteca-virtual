@@ -2,8 +2,7 @@
 
 include_once('../config/config.php');
 
-if (isset($_POST['enviarEdicao'])) 
-{
+if (isset($_POST['enviarEdicao'])) {
 
     $idLivro = $_POST['idEdicao'];
     $nome = $_POST['nome'];
@@ -15,6 +14,6 @@ if (isset($_POST['enviarEdicao']))
     $updateDatabase = $conexao->query($sqlUpdate);
     echo "
     <script>alert('Editado com sucesso!');
-    window.location = '../pages/catalog.php';
+    window.location = '../pages/catalog.php?filter=semfiltro&filtrar=';
     </script>";
 }

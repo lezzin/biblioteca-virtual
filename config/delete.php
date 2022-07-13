@@ -1,21 +1,17 @@
 <?php
 session_start();
 
-if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) 
-{
+if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSenha']) == true)) {
     echo "<script>alert('Você precisa estar logado para acessar a página!');
     window.location = '../login.php';</script>";
     exit;
 }
 
-if ($_SESSION['UsuarioID'] != 1) 
-{
+if ($_SESSION['UsuarioID'] != 1) {
     echo "<script>alert('Você não possui direitos para realizar essa ação!');
         window.location = '../pages/catalog.php';</script>";
     exit;
-}
-else 
-{
+} else {
     include_once('config.php');
 
     $id = $_GET['id'];
@@ -23,22 +19,18 @@ else
     $sqlSelect = "SELECT * FROM livro WHERE idLivro=$id";
 
     $result = $conexao->query($sqlSelect);
-    
-    if ($result->num_rows > 0) 
-    {
+
+    if ($result->num_rows > 0) {
         $sqlDelete = "DELETE FROM livro WHERE idLivro = $id";
         $resultDelete = $conexao->query($sqlDelete);
-        
-        if(mysqli_errno($conexao) == 1451)
-        {
+
+        if (mysqli_errno($conexao) == 1451) {
             echo "
             <script>
             alert('Você não pode deletar um livro que foi comprado ou alugado!');
             window.location = '../pages/catalog.php';
             </script>";
-            }
-        else
-        {
+        } else {
             echo "
             <script>
             alert('Deletado com sucesso.');

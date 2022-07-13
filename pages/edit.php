@@ -7,13 +7,10 @@ if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSen
     exit;
 }
 
-if ($_SESSION['UsuarioID'] != 1) 
-{    
+if ($_SESSION['UsuarioID'] != 1) {
     echo "<script>alert('Você não possui direitos para acessar a página!'); window.location = 'catalog.php';</script>";
-} else 
-{
-    if (!empty($_GET['id'])) 
-    {
+} else {
+    if (!empty($_GET['id'])) {
 
         include_once('../config/config.php');
 
@@ -23,18 +20,15 @@ if ($_SESSION['UsuarioID'] != 1)
 
         $result = $conexao->query($sqlSelect);
 
-        if ($result->num_rows > 0) 
-        {
+        if ($result->num_rows > 0) {
             while ($data = mysqli_fetch_assoc($result)) {
                 $nameValue = $data['nome'];
                 $yearValue = $data['ano'];
                 $priceValue = $data['preco'];
                 $quantityValue = $data['quantidade'];
             }
-        } 
-        else 
-        {
-            header('Location: ../pages/catalog.php');
+        } else {
+            header('Location: catalog.php');
         }
     }
 }

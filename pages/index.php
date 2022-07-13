@@ -50,17 +50,29 @@ if (isset($_POST['sair'])) {
             scroll-behavior: smooth;
         }
 
-        #nav-bottom-main {
-            background: #2525253b;
-            border-radius: 15px;
-        }
-
         .scrollToTop {
             font-size: 1.4em;
             position: fixed;
             bottom: 65px;
             right: 45px;
             display: none;
+
+        }
+
+        .gradient-text {
+            background: linear-gradient(270deg, #b527cf, #3bd9d9);
+            font-weight: bold;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text:hover {
+            background: linear-gradient(270deg, #f958ef, #5df9f9);
+            font-weight: bold;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
@@ -111,40 +123,40 @@ if (isset($_POST['sair'])) {
     <!-- /header -->
 
     <!-- principal -->
-    <main id="home" class="bg-white d-flex justify-content-center align-items-center flex-column" style="height: 100vh">
+    <main id="home" class="bg-dark d-flex justify-content-center align-items-center flex-column" style="height: 90vh">
         <div class="container-fluid d-flex justify-content-between flex-column">
             <div class="row">
                 <div class="col">
                     <div class="d-flex flex-column justify-content-center align-items-center text-center text-white">
-                        <?php echo "<div class='text-dark'><h1>Olá, $logado</h1><h3>Seja bem-vindo</h3></div>"; ?>
+                        <?php echo "<div class='text-light'><h1>Olá, $logado</h1><h3>Seja bem-vindo</h3></div>"; ?>
                         <ul class="nav mt-2">
                             <li class="nav-item">
-                                <a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-dark"><i class=" fa-brands fa-instagram" style="font-size: 1.4rem;"></i></a>
+                                <a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-light"><i class=" fa-brands fa-instagram" style="font-size: 1.4rem;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/lezzin" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-github" style="font-size: 1.4rem;"></i></a>
+                                <a href="https://github.com/lezzin" target="_blank" class="nav-link p-1 text-light"><i class="fa-brands fa-github" style="font-size: 1.4rem;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://www.linkedin.com/in/leandro-adrian/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-linkedin" style="font-size: 1.4rem;"></i></a>
+                                <a href="https://www.linkedin.com/in/leandro-adrian/" target="_blank" class="nav-link p-1 text-light"><i class="fa-brands fa-linkedin" style="font-size: 1.4rem;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://api.whatsapp.com/send?phone=35997242338" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i></a>
+                                <a href="https://api.whatsapp.com/send?phone=35997242338" target="_blank" class="nav-link p-1 text-light"><i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a href="mailto:lezzin.contato@gmail.com" target="_blank" class="nav-link p-1 text-dark"><i class="fa-solid fa-envelope" style="font-size: 1.4rem;"></i></a>
+                                <a href="mailto:lezzin.contato@gmail.com" target="_blank" class="nav-link p-1 text-light"><i class="fa-solid fa-envelope" style="font-size: 1.4rem;"></i></a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="row mt-4">
-                <div class="col d-flex text-center justify-content-center mb-5 mx-5" id="nav-bottom-main">
-                    <ul class="nav d-flex text-center justify-content-center p-md-0 p-3">
-                        <li class="nav-item"><a href="#" class="nav-link text-dark" id="catalogLink">Ir para o catálogo</a></li>
-                        <li class="nav-item"><a href="#form" class="nav-link text-dark">Adicionar um livro</a></li>
-                        <li class="nav-item"><a href="#a-ideia" class="nav-link text-dark">De onde surgiu a ideia?</a></li>
-                        <li class="nav-item"><a href="#languages" class="nav-link text-dark">Linguagens utilizadas</a></li>
-                        <li class="nav-item"><a href="#learned" class="nav-link text-dark">O que aprendi no projeto</a></li>
+            <div class="row">
+                <div class="col d-flex text-center justify-content-center my-5 mx-5" id="nav-bottom-main">
+                    <ul class="nav d-flex text-center justify-content-center p-md-0 p-3 gradient-text">
+                        <li class="nav-item"><a href="#" class="nav-link gradient-text" id="catalogLink">Ir para o catálogo</a></li>
+                        <li class="nav-item"><a href="#form" class="nav-link gradient-text">Adicionar um livro</a></li>
+                        <li class="nav-item"><a href="#a-ideia" class="nav-link gradient-text">De onde surgiu a ideia?</a></li>
+                        <li class="nav-item"><a href="#languages" class="nav-link gradient-text">Linguagens utilizadas</a></li>
+                        <li class="nav-item"><a href="#learned" class="nav-link gradient-text">O que aprendi no projeto</a></li>
                     </ul>
                 </div>
             </div>
@@ -296,7 +308,7 @@ if (isset($_POST['sair'])) {
         <div class="container text-center d-flex flex-column justify-content-center align-items-center p-5">
             <h2 class="text-primary pb-2" data-aos="flip-up">Linguagens utilizadas</h2>
             <div class="row">
-                <div class="card-deck m-4">
+                <div class="col-md-4 col-12 mt-md-0 mt-1">
                     <div class="card text-center" tabindex="0" data-aos="fade-right">
                         <div class="card-body">
                             <h5 class="card-title pb-1">MySQL</h5>
@@ -304,6 +316,8 @@ if (isset($_POST['sair'])) {
                             <p class="card-text pt-1">O MySQL é um sistema gerenciador de banco de dados relacional de código aberto usado na maioria das aplicações gratuitas para gerir suas bases de dados.</p>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-4 col-12 mt-md-0 mt-1">
                     <div class="card text-center" tabindex="0" data-aos="fade-up">
                         <div class="card-body">
                             <h5 class="card-title pb-1">Javascript</h5>
@@ -311,6 +325,8 @@ if (isset($_POST['sair'])) {
                             <p class="card-text pt-1">É uma linguagem de programação que permite a você implementar itens complexos em páginas web. Além dele, utilizei o jQuery, uma biblioteca.</p>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-4 col-12 mt-md-0 mt-1">
                     <div class="card text-center" tabindex="0" data-aos="fade-left">
                         <div class="card-body">
                             <h5 class="card-title pb-1">PHP</h5>
@@ -320,9 +336,9 @@ if (isset($_POST['sair'])) {
                     </div>
                 </div>
             </div>
-            <h4 class="text-secondary" data-aos="flip-up">Outros itens</h4>
-            <div class="row">
-                <div class="card-deck m-4">
+            <h4 class="text-secondary py-4 py-md-2" data-aos="flip-up">Outros itens</h4>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-4 col-8 mt-md-0 mt-1">
                     <div class="card text-center" data-aos="fade-right" style="height: 15em;">
                         <div class="card-body">
                             <h5 class="card-title" aria-describedby="#jqueryExp" tabindex="0">jQuery</h5>
@@ -330,6 +346,8 @@ if (isset($_POST['sair'])) {
                         </div>
                         <a class="btn btn-primary" href="https://api.jquery.com/" target="_blank">Documentação</a>
                     </div>
+                </div>
+                <div class="col-md-4 col-8 mt-md-0 mt-1">
                     <div class="card text-center" data-aos="fade-up" style="height: 15em;">
                         <div class="card-body">
                             <h5 class="card-title" aria-describedby="#bootstrapExp" tabindex="0">Bootstrap</h5>
@@ -337,6 +355,8 @@ if (isset($_POST['sair'])) {
                         </div>
                         <a class="btn btn-primary" href="https://getbootstrap.com/" target="_blank">Documentação</a>
                     </div>
+                </div>
+                <div class="col-md-4 col-8 mt-md-0 mt-1">
                     <div class="card text-center" data-aos="fade-left" style="height: 15em;">
                         <div class="card-body">
                             <h5 class="card-title" aria-describedby="#aosExp" tabindex="0">AOS</h5>
@@ -346,48 +366,53 @@ if (isset($_POST['sair'])) {
                     </div>
                 </div>
             </div>
-        </div>
     </section>
     <!-- /linguagens utilizadas -->
 
     <!-- o que aprendi -->
-    <section id="learned" class="p-5 bg-light" style="overflow-y: hidden;">
+    <section id="learned" class="p-5" style="overflow-y: hidden;">
         <div class="container text-center d-flex flex-column justify-content-center align-items-center p-5">
-            <h2 class="text-primary" data-aos="flip-up">O que aprendi?</h2>
-            <div class="card-deck">
-                <div class="card" tabindex="0" data-aos="fade-left">
-                    <div class="card-header">MySQL</div>
-                    <div class="card-body bg-light">
-                        <ul class="list-group list-group-flush text-dark" style="font-size: .8rem;">
-                            <li class="list-group-item p-1 bg-light">Diversos comandos, como o <samp class="text-primary">DELETE, DROP, ALTER, UPDATE, WHERE(condição)</samp>...</li>
-                            <li class="list-group-item p-1 bg-light">Adição de chaves estrangeiras na tabela através de comandos. </li>
-                            <li class="list-group-item p-1 bg-light">Operações matemáticas.</li>
-                        </ul>
+            <h2 class="text-primary py-2" data-aos="flip-up">O que aprendi?</h2>
+            <div class="row">
+                <div class="col-md-4 col-12 mt-md-0 mt-1">
+                    <div class="card bg-dark" tabindex="0" data-aos="fade-left">
+                        <div class="card-header">MySQL</div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush text-dark" style="font-size: .8rem;">
+                                <li class="list-group-item p-1 bg-transparent">Diversos comandos, como o <samp class="text-primary">DELETE, DROP, ALTER, UPDATE, WHERE(condição)</samp>...</li>
+                                <li class="list-group-item p-1 bg-transparent">Adição de chaves estrangeiras na tabela através de comandos. </li>
+                                <li class="list-group-item p-1 bg-transparent">Operações matemáticas.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="card" tabindex="0" data-aos="fade-up">
-                    <div class="card-header">PHP</div>
-                    <div class="card-body bg-light">
-                        <ul class="list-group list-group-flush text-dark" style="font-size: .8rem;">
-                            <li class="list-group-item p-1 bg-light">Diversas funções, como <samp class="text-warning">str_replace(), number_format(), preg_replace(), date()</samp>...</li>
-                            <li class="list-group-item p-1 bg-light">O básico sobre sessões e algumas funções, como <samp class="text-warning">session_start(), session_unset() session_destroy()</samp>...</li>
-                            <li class="list-group-item p-1 bg-light">Conexão do BD com a página web com os comandos <samp class="text-warning">new mysqli(), query(), mysqli_fetch_array(), mysqli_fetch_assoc()</samp>...</li>
-                        </ul>
+                <div class="col-md-4 col-12 mt-md-0 mt-1">
+                    <div class="card bg-dark" tabindex="0" data-aos="fade-up">
+                        <div class="card-header">PHP</div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush text-dark" style="font-size: .8rem;">
+                                <li class="list-group-item p-1 bg-transparent">Diversas funções, como <samp class="text-warning">str_replace(), number_format(), preg_replace(), date()</samp>...</li>
+                                <li class="list-group-item p-1 bg-transparent">O básico sobre sessões e algumas funções, como <samp class="text-warning">session_start(), session_unset() session_destroy()</samp>...</li>
+                                <li class="list-group-item p-1 bg-transparent">Conexão do BD com a página web com os comandos <samp class="text-warning">new mysqli(), query(), mysqli_fetch_array(), mysqli_fetch_assoc()</samp>...</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="card" tabindex="0" data-aos="fade-right">
-                    <div class="card-header">jQuery</div>
-                    <div class="card-body bg-light">
-                        <ul class="list-group list-group-flush text-dark" style="font-size: .8rem;">
-                            <li class="list-group-item p-1 bg-light">Diversos comandos, como os event listeners (load, ready, click e keydown), animações fadeIn e fadeOut.</li>
-                            <li class="list-group-item p-1 bg-light">Criação e uso das variáveis com $ no início, como no PHP.</li>
-                            <li class="list-group-item p-1 bg-light">Funções como <samp class="text-warning">attr(), prop(), hasClass()</samp>.</li>
-                            <li class="list-group-item p-1 bg-light">Melhorei bastante a minha lógica de programação também.</li>
-                        </ul>
+                <div class="col-md-4 col-12 mt-md-0 mt-1">
+                    <div class="card bg-dark" tabindex="0" data-aos="fade-right">
+                        <div class="card-header">jQuery</div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush text-dark" style="font-size: .8rem;">
+                                <li class="list-group-item p-1 bg-transparent">Diversos comandos, como os event listeners (load, ready, click e keydown), animações fadeIn e fadeOut.</li>
+                                <li class="list-group-item p-1 bg-transparent">Criação e uso das variáveis com $ no início, como no PHP.</li>
+                                <li class="list-group-item p-1 bg-transparent">Funções como <samp class="text-warning">attr(), prop(), hasClass()</samp>.</li>
+                                <li class="list-group-item p-1 bg-transparent">Melhorei bastante a minha lógica de programação também.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-            <p class="pt-2" data-aos="flip-down">Em resumo, melhorei minha lógica em jQuery/javascript<br>
+            <p class="mt-5 pt-1 border-top border-dark" data-aos="flip-down">Em resumo, melhorei minha lógica em jQuery/javascript<br>
                 Conheci e aprendi diversas funções do PHP<br>
                 Aprendi a utilizar comandos simples de SQL e me familiarizei com o MySQL.
             </p>

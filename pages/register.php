@@ -81,7 +81,7 @@ if (isset($_POST['submit']))
     </header>
     <!-- /header -->
     <!-- formulario de cadastro -->
-    <h2 class="text-center mt-2">Cadastro</h2>
+    <h2 class="text-center mt-5">Cadastro</h2>
     <div class="container mb-5 pt-2 mb-md-0 d-flex justify-content-center">
         <form method="POST">
             <div class="row">
@@ -139,12 +139,12 @@ if (isset($_POST['submit']))
     <!-- /formulario de cadastro -->
     <!-- footer -->
     <footer class="bg-light p-2 mt-5 d-flex flex-column justify-content-center align-items-center">
-        <ul class=" nav d-flex justify-content-center align-items-center">
-            <li class="nav-item"><a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-instagram" style="font-size: 1.2rem;"></i></a>
+        <ul class=" nav d-flex justify-content-center align-items-center p-1">
+            <li class="nav-item"><a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-instagram" style="font-size: 1.4em;"></i></a>
             </li>
-            <li class="nav-item"><a href="https://github.com/lezzin" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-github" style="font-size: 1.2rem;"></i></a>
+            <li class="nav-item"><a href="https://github.com/lezzin" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-github" style="font-size: 1.4em;"></i></a>
             </li>
-            <li class="nav-item"><a href="https://www.linkedin.com/in/leandro-adrian/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-linkedin" style="font-size: 1.2rem;"></i></a>
+            <li class="nav-item"><a href="https://www.linkedin.com/in/leandro-adrian/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-linkedin" style="font-size: 1.4em;"></i></a>
             </li>
         </ul>
         <span class="text-center">&copy Leandro Adrian da Silva, 2022</span>

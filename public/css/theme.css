@@ -1,28 +1,23 @@
-[data-theme="dark"] .text-dark {
-  color: #fff8 !important;
-  border: none !important;
-}
-
 [data-theme="dark"] {
   background-color: #252525 !important;
   color: #fff8 !important;
 }
 
-[data-theme="dark"] .bg-dark,
-.bg-black {
+[data-theme="dark"] .text-dark {
+  color: #fff8 !important;
+  border: none !important;
+}
+
+[data-theme="dark"] .bg-dark {
   background-color: #111 !important;
 }
 
 [data-theme="dark"] .bg-secondary {
-  background-color: #363636 !important;
+  background-color: #303030 !important;
 }
 
 [data-theme="dark"] .bg-light {
-  background-color: #333 !important;
-}
-
-[data-theme="dark"] .bg-white {
-  background-color: #404040 !important;
+  background-color: #505050 !important;
 }
 
 [data-theme="dark"] .card {
@@ -92,6 +87,8 @@
   background-color: #383636 !important;
 }
 
-input::placeholder {
-  color: #000 !important;
+[data-theme="dark"] input::placeholder,
+select {
+  font-weight: 500 !important;
+  color: #fff5 !important;
 }

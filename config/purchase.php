@@ -2,8 +2,7 @@
 
 session_start();
 
-if (isset($_POST['enviarForm']))
-{
+if (isset($_POST['enviarForm'])) {
 
     include_once('config.php');
 
@@ -15,12 +14,9 @@ if (isset($_POST['enviarForm']))
     $result = $conexao->query($datas);
     $clientID = $_SESSION['UsuarioID'];
 
-    if ($result->num_rows == 0) 
-    {
+    if ($result->num_rows == 0) {
         echo "<script>alert('Não existe usuário com os dados especificados. Verifique se você inseriu os dados corretamente.'); window.location='../pages/catalog.php'</script>";
-    }
-    else
-    {
+    } else {
         // Formatação do preço para ser inserido corretamente no banco de dados
         // Aqui, foi usada uma expressão regular para excluir as palavras
         $noWord = preg_replace('/[^\d\,]/', '', $_POST['precoConta']);
@@ -35,21 +31,18 @@ if (isset($_POST['enviarForm']))
         $searchResult = $conexao->query($searchCommand);
         $bookIDDatas = mysqli_fetch_assoc($searchResult);
 
-        if($searchResult->num_rows==0)
-        {
+        if ($searchResult->num_rows == 0) {
             echo "
             <script>
             alert('Não existe livro com esse nome');
             window.location='../pages/catalog.php';
             </script>";
-        }
-        else
-        {
+        } else {
             $bookID = $bookIDDatas['idLivro'];
             // Função para diminuir a quantidade de livros no banco de dados, de acordo com a quantidade escolhida pelo cliente
             $sqlUpdate = "UPDATE livro SET quantidade = quantidade-$quantity where idLivro = $bookID";
             $updateResult = $conexao->query($sqlUpdate);
-    
+
             $insertDatas = "INSERT INTO compra(preco, quantidade, fk_livro, fk_cliente) VALUES ('$price', '$quantity', $bookID, '$clientID')";
             $insertResult = $conexao->query($insertDatas);
             echo "
@@ -58,6 +51,5 @@ if (isset($_POST['enviarForm']))
             window.location='../pages/catalog.php';
             </script>";
         }
-
     }
 }
