@@ -3,9 +3,12 @@
   color: #fff8 !important;
 }
 
-[data-theme="dark"] .text-dark {
+[data-theme="dark"] .text-white {
   color: #fff8 !important;
-  border: none !important;
+}
+
+[data-theme="dark"] .text-dark {
+  color: #fff !important;
 }
 
 [data-theme="dark"] .bg-dark {
@@ -30,12 +33,6 @@
 
 [data-theme="dark"] a:hover {
   color: #fff !important;
-}
-
-[data-theme="dark"] input {
-  background-color: #505050 !important;
-  color: #fff !important;
-  border-color: transparent !important;
 }
 
 /* btn */
@@ -87,8 +84,19 @@
   background-color: #383636 !important;
 }
 
-[data-theme="dark"] input::placeholder,
-select {
+[data-theme="dark"] input::placeholder {
+  font-size: 1.2em;
   font-weight: 500 !important;
   color: #fff5 !important;
+}
+
+[data-theme="dark"] input,
+select {
+  background-color: #505050 !important;
+  color: #fff !important;
+  border-color: #404040 !important;
+}
+
+input {
+  font-weight: 500 !important;
 }

@@ -97,6 +97,11 @@ function quantityBook()
             display: none;
         }
 
+        #showMoreInformations,
+        #showPrice {
+            border-color: transparent !important;
+        }
+
         .gradient-text {
             background: linear-gradient(270deg, #b527cf, #3bd9d9);
             font-weight: bold;
@@ -105,7 +110,7 @@ function quantityBook()
             -webkit-text-fill-color: transparent;
         }
 
-        .gradient-text:hover {
+        a.gradient-text:hover {
             background: linear-gradient(270deg, #f958ef, #5df9f9);
             font-weight: bold;
             background-clip: text;
@@ -251,7 +256,7 @@ function quantityBook()
                         <h1 class="text-center mb-5 gradient-text">Alugar um livro</h1>
                         <div class="form-group">
                             <label for="nomeLivro" class="text-light">Nome do livro</label>
-                            <input type="text" name="nomeLivroAlugado" class="form-control" id="nomeLivro" value="<?php rentBook(); ?>" placeholder=" Nome do livro" required>
+                            <input type="text" name="nomeLivroAlugado" class="form-control" id="nomeLivroAlugado" value="<?php rentBook(); ?>" placeholder=" Nome do livro" required>
                         </div>
                         <div class="form-group">
                             <label for="dias" class="text-light">Insira quantos dias o livro será alugado.</label>
@@ -276,7 +281,7 @@ function quantityBook()
                                         echo "<small class='text-danger font-weight-bold' id='semEstoqueAluguel'>Não temos esse livro no estoque :/</small>";
                                     } else {
                                         $bookID = $bookIDDatas['idLivro'];
-                                        echo "<small>O livro custará R$<span id='rentPrice'>" . $rentPrice . "</span></small>";
+                                        echo "<small class='text-light font-weight-bold'>O livro custará R$<span id='rentPrice'>" . $rentPrice . "</span></small>";
                                         echo "<input type='hidden' name='bookID' id='bookId' value='" . $bookID . "'>";
                                     }
                                 }
@@ -328,7 +333,7 @@ function quantityBook()
                                     } else {
                                         $bookID = $data['idLivro'];
                                         $price = number_format(($data['preco'] * $quantity - ($data['preco'] * $quantity * 10 / 100)), 2, ',', '.');
-                                        echo "<small>O livro custará R$<span id='price'>" . $price . "</span></small>";
+                                        echo "<small class='text-light font-weight-bold'>O livro custará R$<span id='price'>" . $price . "</span></small>";
                                         echo "<input type='hidden' name='bookPurchasedID' id='bookPurchasedID' value='" . $bookID . "'>";
                                     }
                                 }
@@ -346,53 +351,6 @@ function quantityBook()
         </div>
     </section>
     <!-- aluguel e venda de livros -->
-
-    <!-- modal  -->
-    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content bg-light text-dark">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title">Formulário de compra/aluguel</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" id="form-submit">
-                        <div class="form-group">
-                            <label for="email" class="col-form-label">Email de usuário</label>
-                            <input type="email" class="form-control" name="email-usuario" id="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="senha" class="col-form-label">Senha</label>
-                            <input type="password" class="form-control" name="senha-usuario" id="senha" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cpf" class="col-form-label">CPF</label>
-                            <input type="number" class="form-control" name="cpf-usuario" id="cpf" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tipo-de-compra" class="col-form-label">Aluguel ou compra?</label>
-                            <select class="form-control" name="tipo-de-compra" id="tipo-de-compra" required>
-                                <option>---</option>
-                                <option value="Aluguel">Aluguel</option>
-                                <option value="Compra">Compra</option>
-                            </select>
-                            <!-- inputs de ajuda para preencher o banco de dados -->
-                            <input type="text" class="form-control" name="precoConta" id="showPrice" style="display: none;" readonly>
-                            <input type="text" class="form-control" name="additional" id="showMoreInformations" style="display: none;" readonly>
-                            <input type="hidden" class="form-control" name="livro" id="auxiliarInput">
-                        </div>
-                        <div class=" modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="submit" class="btn btn-primary" name="enviarForm" id="btn-submit">Fechar e salvar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /modal -->
 
     <!-- footer -->
     <footer class="bg-light p-2 d-flex flex-column justify-content-center align-items-center shadow-sm">
@@ -413,6 +371,53 @@ function quantityBook()
     </footer>
     <!-- /footer -->
 
+    <!-- modal  -->
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-light text-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="modal-title">Formulário de compra/aluguel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="form-submit">
+                        <div class="form-group">
+                            <label for="email" class="col-form-label text-dark">Email de usuário</label>
+                            <input type="email" class="form-control" name="email-usuario" id="email" placeholder="Seu email" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="senha" class="col-form-label text-dark">Senha</label>
+                            <input type="password" class="form-control" name="senha-usuario" id="senha" placeholder="Sua senha" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="cpf" class="col-form-label text-dark">CPF</label>
+                            <input type="number" class="form-control" name="cpf-usuario" id="cpf" placeholder="Seu CPF" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo-de-compra" class="col-form-label text-dark">Aluguel ou compra?</label>
+                            <select class="form-control bg-transparent text-dark" name="tipo-de-compra" id="tipo-de-compra" required>
+                                <option class="text-secondary" selected>---</option>
+                                <option class="text-secondary" value="Aluguel">Aluguel</option>
+                                <option class="text-secondary" value="Compra">Compra</option>
+                            </select>
+                            <!-- inputs de ajuda para preencher o banco de dados -->
+                            <input type="text" class="form-control font-weight-normal" name="precoConta" id="showPrice" style="display: none;" readonly>
+                            <input type="text" class="form-control font-weight-normal" name="additional" id="showMoreInformations" style="display: none;" readonly>
+                            <input type="hidden" class="form-control font-weight-normal" name="livro" id="auxiliarInput">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-primary" name="enviarForm" id="btn-submit">Finalizar pedido</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal -->
+
     <div class="scrollToTop" tabindex="0">
         <a href="#"><i class="fa-solid fa-arrow-up"></i></a>
     </div>
@@ -422,34 +427,45 @@ function quantityBook()
     AOS.init();
 
     $(document).ready(() => {
-
+        // Evita o autocomplete do google
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('#email').removeAttr('disabled');
+                $('#senha').removeAttr('disabled');
+            }, 100);
+        });
         // Caso não tenha nenhum livro no catálogo, os formulários não são mostrados
         let $nothingToShow = $("#nothingToShow").html()
         if ($nothingToShow != undefined) {
             $("#home").css("display", "none")
             $("#search-area").css("display", "none")
             $("body").css("overflow", "hidden")
-        } else {
-            $("#search-area").css("display", "block")
-            $("#home").css("display", "block")
-            $("body").css("overflow", "visible")
         }
 
         checkBtnRent();
         checkBtnPurchase();
 
-        if ($("#semEstoqueCompra").html() !== undefined || $("#nomeErradoCompra").html() !== undefined || $("#nomeInvalidoCompra").html() !== undefined) {
-            $("#btnCompra").attr("disabled", "");
-            $("#btnCalculo").attr("disabled", "");
-        };
-        if ($("#nomeErradoCompra").html() !== undefined) {
-            $("#btnCompra").attr("disabled", "");
-            $("#btnCalculo").attr("disabled", "");
-        };
 
-        if ($("#semEstoqueAluguel").html() !== undefined || $("#nomeErradoAluguel").html() !== undefined || $("#nomeInvalidoAluguel").html() !== undefined) {
-            $("#btnAluguel").attr("disabled", "");
-            $("#calcularPrecoAluguel").attr("disabled", "");
+        // Condições que ao load da página, desabilitam os botões caso o livro dito não tenha estoque ou
+        // o usuário tenha inserido informações erradas
+        // Variáveis
+        let invalidPurchaseBookName = $("#nomeInvalidoCompra").html() !== undefined;
+        let wrongPurchaseBookName = $("#nomeErradoCompra").html() !== undefined;
+
+        let invalidRentBookName = $("#nomeInvalidoAluguel").html() !== undefined;
+        let wrongRentBookName = $("#nomeErradoAluguel").html() !== undefined
+
+        let noPurchaseStock = $("#semEstoqueCompra").html() !== undefined;
+        let noRentStock = $("#semEstoqueAluguel").html() !== undefined;
+
+        // Botões do formulário de aluguel
+        if (wrongRentBookName || invalidRentBookName || noRentStock) {
+            $("#btnAluguel").css("display", "none");
+        }
+
+        // Botões do formulário de compra
+        if (wrongPurchaseBookName || invalidPurchaseBookName || noPurchaseStock) {
+            $("#btnCompra").css("display", "none");
         }
     });
 
@@ -474,62 +490,72 @@ function quantityBook()
     }
 
     // Variáveis formulário de aluguel
-    let rent = $("#rentPrice").text();
-    let days = $("#dias").val();
-    let bookID = $("#bookId").val();
-
+    $rent = $("#rentPrice").text();
+    $days = $("#dias").val();
+    $bookRentedID = $("#bookId").val();
     // Variáveis formulário de compra
-    let purchase = $("#price").text();
-    // Transformando variável do PHP em variável JS
-    let quantity = "<?php quantityBook() ?>";
+    $purchase = $("#price").text();
+    $quantity = "<?php quantityBook() ?>";
+    $bookPurchasedID = $("#bookPurchasedID").val();
 
-    let bookPurchasedID = $("#bookPurchasedID").val();
+    $botaoFinalizarPedido = $("#btn-submit");
+    $showPrice = $('#showPrice');
+    $showInformation = $('#showMoreInformations');
+    $inputBookID = $("#auxiliarInput");
+
+    $rentBook = $("#nomeLivroAlugado").val();
+    $purchaseBook = $("#nomeLivroComprado").val();
 
     // Condições para cada opção do input select do modal (linha 331)
     $('#tipo-de-compra').change(function() {
-        var valueSelect = $('#tipo-de-compra').val();
-        $('#showPrice').css('display', 'block');
+        $valueSelect = $('#tipo-de-compra').val();
+        $showPrice.css('display', 'block');
 
-        if (valueSelect == '---') {
-            $("#btn-submit").attr("disabled", "");
-            $('#showMoreInformations').css('display', 'none');
+        // Opção 1
+        if ($valueSelect == '---') {
+            $botaoFinalizarPedido.attr("disabled", "");
+
+            $showInformation.css('display', 'none');
             $("#showPrice").val("Por favor, selecione uma das opções");
-        } else {
-            $('#showMoreInformations').css('display', 'block');
         }
 
-        if (valueSelect == 'Aluguel') {
+        // Opção 2
+        if ($valueSelect == 'Aluguel') {
             $("#form-submit").attr("action", "../config/rent.php");
-            $("#auxiliarInput").val(bookID);
-            // Aqui, fram usados os operadores ternários
-            (rent == '') ? $('#showPrice').val('Calcule o preço antes de efetuar o empréstimo'): $('#showPrice').val("Esse é o preço do aluguel: R$" + rent);
-            (days == '') ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").attr("disabled", ""): $('#showMoreInformations').val("O livro será alugado por: " + days + " dias") && $("#btn-submit").removeAttr("disabled");;
-            ($("#nomeErradoAluguel").html() !== undefined || $("#nomeErradoCompra").html() !== undefined) ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").attr("disabled", "") && $('#showPrice').val('Insira um nome de livro válido'): $('#showMoreInformations').css("display", "block") && $("#btn-submit").removeAttr("disabled");
+            $inputBookID.val($bookRentedID);
+
+            if ($rent == '') {
+                $botaoFinalizarPedido.attr("disabled", "");
+                $showInformation.css('display', 'none');
+                $showPrice.val("Calcule o preço antes de alugar o livro");
+            } else {
+                $botaoFinalizarPedido.removeAttr("disabled");
+                $showPrice.val(`Esse é o preço do aluguel do livro "${$rentBook}": R$${$rent}`);
+                $showInformation.css('display', 'block');
+                $showInformation.val("O livro será alugado por: " + $days + " dia(s)") && $botaoFinalizarPedido.removeAttr("disabled");;
+            }
         }
-        if (valueSelect == 'Compra') {
+
+        // Opção 3
+        if ($valueSelect == 'Compra') {
             $("#form-submit").attr("action", "../config/purchase.php");
-            $("#auxiliarInput").val(bookPurchasedID);
-            (purchase == '') ? $('#showPrice').val('Calcule o preço antes de efetuar a compra'): $('#showPrice').val("Esse é o preço do livro: R$" + purchase);
-            (quantity == '') ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").attr("disabled", ""): $('#showMoreInformations').val("Quantidade de livros a serem comprados: " + quantity + " livro(s)") && $("#btn-submit").removeAttr("disabled");
-            ($("#nomeErradoCompra").html() !== undefined || $("#nomeErradoAluguel").html() !== undefined) ? $('#showMoreInformations').css("display", "none") && $("#btn-submit").attr("disabled", "") && $('#showPrice').val('Insira um nome de livro válido'): $('#showMoreInformations').css("display", "block") && $("#btn-submit").removeAttr("disabled");
-
-        }
-    });
-
-    $("#form-addBook").click(() => {
-        if (confirm("Você será dimensionado para uma página na mesma janela")) {
-            $("#form-addBook").attr("href", "./index.php#form");
-        }
-    });
-    $("#catalog-home").click(() => {
-        if (confirm("Voltar para a página inicial?")) {
-            $("#catalog-home").attr("href", "./index.php");
+            $inputBookID.val($bookPurchasedID);
+            if ($purchase == '') {
+                $botaoFinalizarPedido.attr("disabled", "");
+                $showPrice.val("Calcule o preço antes de comprar o livro");
+                $showInformation.css('display', 'none');
+            } else {
+                $botaoFinalizarPedido.removeAttr("disabled");
+                $showPrice.val(`Esse é o preço do livro "${$purchaseBook}": R$${$purchase}`);
+                $showInformation.css('display', 'block');
+                $showInformation.val("Quantidade de livros a serem comprados: " + $quantity + " livro(s)") && $botaoFinalizarPedido.removeAttr("disabled");
+            }
         }
     });
 
     // Funções que habilitam/desabilitam os botões
     function checkBtnRent() {
-        if ($("#nomeLivro").val().length < 3 || $("#dias").val().length < 1) {
+        if ($("#nomeLivroAlugado").val().length < 3 || $("#dias").val().length < 1) {
             $("#btnAluguel").attr("disabled", "");
             $("#calcularPrecoAluguel").attr("disabled", "");
             return;
@@ -548,13 +574,24 @@ function quantityBook()
         $("#btnCalculo").removeAttr("disabled");
     };
 
-    // Botões de aluguel
-    $("#nomeLivro").on("input", checkBtnRent);
+    // Eventos nos botões de aluguel
+    $("#nomeLivroAlugado").on("input", checkBtnRent);
     $("#dias").on("input", checkBtnRent);
 
-    //Botões de compra
+    //Eventos nos botões de compra
     $("#nomeLivroComprado").on("input", checkBtnPurchase);
     $("#quantidadeLivro").on("input", checkBtnPurchase);
+
+    $("#form-addBook").click(() => {
+        if (confirm("Você será dimensionado para uma página na mesma janela")) {
+            $("#form-addBook").attr("href", "./index.php#form");
+        }
+    });
+    $("#catalog-home").click(() => {
+        if (confirm("Voltar para a página inicial?")) {
+            $("#catalog-home").attr("href", "./index.php");
+        }
+    });
 </script>
 <script src="../public/js/theme.js"></script>
 <script src="../public/js/pace.js"></script>

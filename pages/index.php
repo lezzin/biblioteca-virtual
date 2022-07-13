@@ -376,9 +376,9 @@ if (isset($_POST['sair'])) {
             <div class="row">
                 <div class="col-md-4 col-12 mt-md-0 mt-1">
                     <div class="card bg-dark" tabindex="0" data-aos="fade-left">
-                        <div class="card-header">MySQL</div>
+                        <div class="card-header text-white">MySQL</div>
                         <div class="card-body">
-                            <ul class="list-group list-group-flush text-dark" style="font-size: .8rem;">
+                            <ul class="list-group list-group-flush text-white" style="font-size: .8rem;">
                                 <li class="list-group-item p-1 bg-transparent">Diversos comandos, como o <samp class="text-primary">DELETE, DROP, ALTER, UPDATE, WHERE(condição)</samp>...</li>
                                 <li class="list-group-item p-1 bg-transparent">Adição de chaves estrangeiras na tabela através de comandos. </li>
                                 <li class="list-group-item p-1 bg-transparent">Operações matemáticas.</li>
@@ -388,9 +388,9 @@ if (isset($_POST['sair'])) {
                 </div>
                 <div class="col-md-4 col-12 mt-md-0 mt-1">
                     <div class="card bg-dark" tabindex="0" data-aos="fade-up">
-                        <div class="card-header">PHP</div>
+                        <div class="card-header text-white">PHP</div>
                         <div class="card-body">
-                            <ul class="list-group list-group-flush text-dark" style="font-size: .8rem;">
+                            <ul class="list-group list-group-flush text-white" style="font-size: .8rem;">
                                 <li class="list-group-item p-1 bg-transparent">Diversas funções, como <samp class="text-warning">str_replace(), number_format(), preg_replace(), date()</samp>...</li>
                                 <li class="list-group-item p-1 bg-transparent">O básico sobre sessões e algumas funções, como <samp class="text-warning">session_start(), session_unset() session_destroy()</samp>...</li>
                                 <li class="list-group-item p-1 bg-transparent">Conexão do BD com a página web com os comandos <samp class="text-warning">new mysqli(), query(), mysqli_fetch_array(), mysqli_fetch_assoc()</samp>...</li>
@@ -400,9 +400,9 @@ if (isset($_POST['sair'])) {
                 </div>
                 <div class="col-md-4 col-12 mt-md-0 mt-1">
                     <div class="card bg-dark" tabindex="0" data-aos="fade-right">
-                        <div class="card-header">jQuery</div>
+                        <div class="card-header text-white">jQuery</div>
                         <div class="card-body">
-                            <ul class="list-group list-group-flush text-dark" style="font-size: .8rem;">
+                            <ul class="list-group list-group-flush text-white" style="font-size: .8rem;">
                                 <li class="list-group-item p-1 bg-transparent">Diversos comandos, como os event listeners (load, ready, click e keydown), animações fadeIn e fadeOut.</li>
                                 <li class="list-group-item p-1 bg-transparent">Criação e uso das variáveis com $ no início, como no PHP.</li>
                                 <li class="list-group-item p-1 bg-transparent">Funções como <samp class="text-warning">attr(), prop(), hasClass()</samp>.</li>

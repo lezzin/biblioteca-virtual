@@ -1,7 +1,11 @@
 <?php
 
-if (isset($_POST['submit'])) 
-{
+if ((isset($_SESSION['UsuarioNome']) == true) and (isset($_SESSION['UsuarioSenha']) == true)) {
+    echo "<script>window.location = 'pages/index.php';</script>";
+    exit;
+};
+
+if (isset($_POST['submit'])) {
     // Variáveis do formulário
     $nome = $_POST['nome'];
     $senha = $_POST['senha'];
@@ -14,13 +18,11 @@ if (isset($_POST['submit']))
     $userVerify = $conexao->query($sqlSelect);
 
     // Caso exista:
-    if ($userVerify->num_rows > 0) 
-    {
+    if ($userVerify->num_rows > 0) {
         $consult = mysqli_fetch_assoc($userVerify);
 
         // Caso não exista uma sessão, ela é iniciada
-        if (session_status() !== PHP_SESSION_ACTIVE) 
-        {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
 
@@ -31,11 +33,9 @@ if (isset($_POST['submit']))
 
         // Mostra uma mensagem para o usuário e o envia para a página inicial da biblioteca virtual (index.php)
         echo "<script>alert('Logado com sucesso! Seja bem-vindo');</script>";
-        header("Location: pages\index.php");
+        header("Location: pages/index.php");
         exit;
-    } 
-    else 
-    {
+    } else {
         // Caso não exista, os dados da sessão são apagados
         unset($_SESSION['UsuarioNome']);
         unset($_SESSION['UsuarioSenha']);
