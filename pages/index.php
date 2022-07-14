@@ -56,7 +56,6 @@ if (isset($_POST['sair'])) {
             bottom: 65px;
             right: 45px;
             display: none;
-
         }
 
         .gradient-text {
@@ -91,7 +90,7 @@ if (isset($_POST['sair'])) {
     <!-- /preloader -->
     <input type="checkbox" id="darkSwitch" name="darkSwitch" style="display:none;">
     <!-- header -->
-    <header class="bg-light shadow-sm sticky-top w-100">
+    <header class="backdrop-filter shadow-sm sticky-top w-100">
         <div class="container">
             <nav class=" navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand" id="github-link" tabindex="0"><img src="../public/icons/icon-header.png" loading="lazy"><span class="p-1" style="font-family:'Roboto', sans-serif;">Bibliozzin</span></a>
@@ -123,27 +122,27 @@ if (isset($_POST['sair'])) {
     <!-- /header -->
 
     <!-- principal -->
-    <main id="home" class="bg-dark d-flex justify-content-center align-items-center flex-column" style="height: 90vh">
-        <div class="container-fluid d-flex justify-content-between flex-column">
+    <main id="home" class="d-flex justify-content-center align-items-center flex-column" style="height: calc(100vh - 80px);">
+        <div class="container-fluid d-flex justify-content-between flex-column text-center">
             <div class="row">
                 <div class="col">
-                    <div class="d-flex flex-column justify-content-center align-items-center text-center text-white">
-                        <?php echo "<div class='text-light'><h1>Olá, $logado</h1><h3>Seja bem-vindo</h3></div>"; ?>
+                    <div class="d-flex flex-column justify-content-center align-items-center text-dark">
+                        <?php echo "<div><h1>Olá, $logado</h1><h3>Seja bem-vindo</h3></div>"; ?>
                         <ul class="nav mt-2">
                             <li class="nav-item">
-                                <a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-light"><i class=" fa-brands fa-instagram" style="font-size: 1.4rem;"></i></a>
+                                <a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-dark"><i class=" fa-brands fa-instagram" style="font-size: 1.4rem;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/lezzin" target="_blank" class="nav-link p-1 text-light"><i class="fa-brands fa-github" style="font-size: 1.4rem;"></i></a>
+                                <a href="https://github.com/lezzin" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-github" style="font-size: 1.4rem;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://www.linkedin.com/in/leandro-adrian/" target="_blank" class="nav-link p-1 text-light"><i class="fa-brands fa-linkedin" style="font-size: 1.4rem;"></i></a>
+                                <a href="https://www.linkedin.com/in/leandro-adrian/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-linkedin" style="font-size: 1.4rem;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://api.whatsapp.com/send?phone=35997242338" target="_blank" class="nav-link p-1 text-light"><i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i></a>
+                                <a href="https://api.whatsapp.com/send?phone=35997242338" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a href="mailto:lezzin.contato@gmail.com" target="_blank" class="nav-link p-1 text-light"><i class="fa-solid fa-envelope" style="font-size: 1.4rem;"></i></a>
+                                <a href="mailto:lezzin.contato@gmail.com" target="_blank" class="nav-link p-1 text-dark"><i class="fa-solid fa-envelope" style="font-size: 1.4rem;"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -165,7 +164,7 @@ if (isset($_POST['sair'])) {
     <!-- /principal -->
 
     <!-- informações do catalogo -->
-    <section class="mb-5 mt-5 d-flex justify-content-center align-items-center flex-column" id="catalog" style="overflow-y: hidden !important;">
+    <section class="d-flex justify-content-center align-items-center flex-column" id="catalog" style="overflow-y: hidden !important; height:100vh;">
         <h2 class="text-center" data-aos="flip-up">O que você encontrará aqui?</h2>
         <span class="mb-5 text-danger text-center" data-aos="flip-up">Aqui, você encontrará os mais variados gêneros de livros, dos mais variados autores. </span>
         <div class="container mb-2">
@@ -336,7 +335,7 @@ if (isset($_POST['sair'])) {
                     </div>
                 </div>
             </div>
-            <h4 class="text-secondary py-4 py-md-2" data-aos="flip-up">Outros itens</h4>
+            <h4 class="text-primary py-4 py-md-2" data-aos="flip-up">Outros itens</h4>
             <div class="row d-flex justify-content-center">
                 <div class="col-md-4 col-8 mt-md-0 mt-1">
                     <div class="card text-center" data-aos="fade-right" style="height: 15em;">
@@ -421,7 +420,7 @@ if (isset($_POST['sair'])) {
     <!-- /o que aprendi -->
 
     <!-- footer -->
-    <footer class="bg-light shadow-lg p-2 d-flex flex-column justify-content-center align-items-center">
+    <footer class="p-2 d-flex flex-column justify-content-center align-items-center">
         <ul class="nav d-flex justify-content-center align-items-center">
             <li class="nav-item">
                 <a href="#home" class="nav-link">Início</a>
@@ -442,10 +441,11 @@ if (isset($_POST['sair'])) {
             <li class="nav-item"><a href="mailto:lezzin.contato@gmail.com" target="_blank" class="nav-link p-1 text-dark"><i class="fa-solid fa-envelope" style="font-size: 1.2rem;"></i></a>
             </li>
         </ul>
-        <a href="https://github.com/lezzin/" target="_blank" class="text-dark">&copy Leandro Adrian da Silva, 2022</a>
-        <small class="text-danger">Todos os direitos reservados</small>
+        <a href="https://github.com/lezzin/" target="_blank" class="text-white">&copy Leandro Adrian da Silva, 2022</a>
+        <small class="text-white">Todos os direitos reservados</small>
     </footer>
     <!-- /footer -->
+
     <a href="#" class="scrollToTop"><i class="fa-solid fa-arrow-up"></i></a>
 </body>
 <script src="../public/js/global.js"></script>

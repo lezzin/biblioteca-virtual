@@ -67,7 +67,7 @@ if ($_SESSION['UsuarioID'] != 1) {
     </style>
 </head>
 
-<body style="font-family: 'Source Sans Pro', sans-serif;">
+<body style="font-family: 'Source Sans Pro', sans-serif;height:100vh;">
     <!-- preloader -->
     <div id="preloader">
         <div class="inner">
@@ -82,7 +82,7 @@ if ($_SESSION['UsuarioID'] != 1) {
 
     <input type="checkbox" id="darkSwitch" name="darkSwitch" style="display:none;">
     <!-- header -->
-    <header class="bg-light shadow-sm sticky-top w-100">
+    <header class="backdrop-filter shadow-sm sticky-top w-100">
         <div class="container">
             <nav class=" navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand" id="github-link" tabindex="0"><img src="../public/icons/icon-header.png" loading="lazy"><span class="p-1" style="font-family:'Roboto', sans-serif;">Bibliozzin</span></a>
@@ -108,7 +108,7 @@ if ($_SESSION['UsuarioID'] != 1) {
     <!-- /header -->
 
     <!-- Aqui, todos os values dos inputs são preenchidos com as variáveis criadas no inicio da página, que armazenam informações do livro a ser editado -->
-    <div class="container mt-4" style="width:50vw;">
+    <div class="container mt-5 pt-5" style="width:50vw;">
         <form action="../config/save.php" method="POST">
             <div class="form-title">
                 <h1 class="text-center">Editar livro</h1>

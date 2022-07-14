@@ -64,22 +64,11 @@ if (isset($_POST['submit'])) {
 
     <script src="./bootstrap/bootstrap.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
-
-        input::placeholder {
-            color: #fff;
-        }
-    </style>
 
     <title>Login | Bibliozzin</title>
 </head>
 
-<body style="font-family: 'Source Sans Pro', sans-serif;">
+<body style="font-family: 'Source Sans Pro', sans-serif;height:100vh;" class="d-flex flex-column justify-content-between">
     <!-- preloader -->
     <div id="preloader">
         <div class="inner">
@@ -93,12 +82,7 @@ if (isset($_POST['submit'])) {
     <!-- /preloader -->
     <input type="checkbox" id="darkSwitch" style="display: none;">
     <!-- header -->
-    <header class="bg-light">
-        <noscript>
-            <p style="text-align: center;">Ative o javascript antes de logar em sua conta para que as funções do site sejam executadas corretamente!<br>
-                Caso o script esteja desativado, a imagem de preloading ficará eternamente na tela! </p>
-        </noscript>
-
+    <header class="bg-primary">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand" tabindex="0" target="_blank" id="github-link" style="cursor:pointer;"><img src="./public/icons/icon-header.png"><span class="p-1">Bibliozzin</span></a>
@@ -112,14 +96,16 @@ if (isset($_POST['submit'])) {
                             <a class="nav-link"><label for="darkSwitch" class="pt-2"><i class="fa-solid" id="labelDarkSwitch" tabindex="0" style="cursor: pointer;"></i></label></a>
                         </li>
                     </ul>
+                </div>
             </nav>
         </div>
     </header>
     <!-- /header -->
+
     <!-- formulario-main -->
     <main>
-        <div class="container my-5" style="width:300px;">
-            <form method="POST" autocomplete="off">
+        <div class="container d-flex justify-content-center">
+            <form method="POST" style="font-size:1.3em; width:300px;">
                 <div class="form-group">
                     <label for="nome">Nome</label>
                     <input type="text" name="nome" class="form-control" id="nome" placeholder="Seu nome" aria-required="true" required disabled />
@@ -128,7 +114,7 @@ if (isset($_POST['submit'])) {
                 <div class="input-group w-100 mb-4">
                     <div class="input-group-prepend w-100">
                         <input type="password" name="senha" class="form-control" id="senha" style="border-radius:4px 0 0 4px !important;" placeholder="Sua senha" aria-required="true" required disabled />
-                        <div class="input-group-text rounded-right bg-white border-0 d-flex align-items-center" style="height: 2.25rem !important; margin-top:.9px;"><img width="16" height="16" tabindex="0" id="exibe" src="./public/icons/eye.svg" style="cursor:pointer"></div>
+                        <div class="input-group-text rounded-right border-0 d-flex bg-light align-items-center" style="height: 2.25rem !important; margin-top:1px;"><img width="16" height="16" tabindex="0" id="exibe" src="./public/icons/eye.svg" style="cursor:pointer"></div>
                     </div>
                 </div>
                 <button type="submit" name="submit" id="submit" class="btn btn-primary btn-block">Login</button>
@@ -137,9 +123,10 @@ if (isset($_POST['submit'])) {
         </div>
     </main>
     <!-- /formulario-main -->
+
     <!-- footer -->
-    <footer class="bg-light p-2 d-flex flex-column justify-content-center align-items-center">
-        <ul class=" nav d-flex justify-content-center align-items-center">
+    <footer class="text-center p-2">
+        <ul class="nav d-flex justify-content-center align-items-center">
             <li class="nav-item"><a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-instagram" style="font-size: 1.2rem;"></i></a>
             </li>
             <li class="nav-item"><a href="https://github.com/lezzin" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-github" style="font-size: 1.2rem;"></i></a>

@@ -36,7 +36,7 @@ $logado = $_SESSION['UsuarioNome'];
     <title>Resultados da pesquisa</title>
 </head>
 
-<body style="font-family: 'Source Sans Pro', sans-serif;">
+<body style="font-family: 'Source Sans Pro', sans-serif;height:100vh;" class="d-flex flex-column justify-content-between">
     <input type="checkbox" id="darkSwitch" style="display: none;">
 
     <!-- preloader -->
@@ -51,7 +51,7 @@ $logado = $_SESSION['UsuarioNome'];
     </div>
 
     <!-- /preloader -->
-    <header class="bg-light shadow-sm sticky-top w-100">
+    <header class="backdrop-filter shadow-sm sticky-top w-100">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light" style="width: auto;">
                 <a class="navbar-brand" id="github-link" tabindex="0" target="_blank"><img src="../public/icons/icon-header.png" loading="lazy"><span class="p-1" style="font-family:'Roboto', sans-serif;">Bibliozzin</span></a>
@@ -80,7 +80,7 @@ $logado = $_SESSION['UsuarioNome'];
     <!-- /header -->
 
     <!-- resultados da pesquisa -->
-    <div class="container mt-5  mb-5" id="home">
+    <div class="container my-5 py-5" id="home">
         <?php
 
         // Se existe o botão pesquisar, que está na página do catálogo e se o valor do input é diferente de nada (espaços em branco)
@@ -123,7 +123,7 @@ $logado = $_SESSION['UsuarioNome'];
         }
         ?>
         <span class="text-info d-flex justify-content-center" id="message"></span>
-        <div class="row d-flex justify-content-center align-items-center mt-5" id="container-cards">
+        <div class="row d-flex justify-content-center align-items-center pt-md-3 pt-5" id="container-cards">
             <?php
             // Aqui é onde são mostrados os resultados da pesquisa
             // No caso, é criado um card com as informações do livro, mas poderia ser uma lista ou tabela
@@ -173,8 +173,8 @@ $logado = $_SESSION['UsuarioNome'];
     </div>
 
     <!-- footer -->
-    <footer class="bg-light p-2 d-flex flex-column justify-content-center align-items-center shadow-sm" id="footer">
-        <ul class=" nav d-flex justify-content-center align-items-center">
+    <footer class="p-2 text-center shadow-sm" id="footer">
+        <ul class="nav d-flex justify-content-center align-items-center">
             <li class="nav-item"><a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-instagram" style="font-size: 1.2rem;"></i></a>
             </li>
             <li class="nav-item"><a href="https://github.com/lezzin" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-github" style="font-size: 1.2rem;"></i></a>
@@ -186,8 +186,8 @@ $logado = $_SESSION['UsuarioNome'];
             <li class="nav-item"><a href="mailto:lezzin.contato@gmail.com" target="_blank" class="nav-link p-1 text-dark"><i class="fa-solid fa-envelope" style="font-size: 1.2rem;"></i></a>
             </li>
         </ul>
-        <a href="https://github.com/lezzin/" target="_blank" class="text-dark">&copy Leandro Adrian da Silva, 2022</a>
-        <small class="text-danger">Todos os direitos reservados</small>
+        <a href="https://github.com/lezzin/" target="_blank" class="text-dark">&copy Leandro Adrian da Silva, 2022</a><br>
+        <small class="text-dark">Todos os direitos reservados</small>
     </footer>
     <!-- /footer -->
 

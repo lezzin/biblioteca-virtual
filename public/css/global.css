@@ -1,3 +1,38 @@
 @import url(pace-theme.css);
 @import url(theme.css);
 @import url(preloader.css);
+
+header {
+    font-weight: 500 !important;
+    font-size: 1.3em !important;
+}
+
+footer i,
+header i {
+    padding: 6px;
+    border-radius: 50%;
+}
+
+footer i {
+    background-color: #eee;
+}
+
+header i {
+    background-color: #248eff;
+}
+
+.nav-link:hover,
+i:hover,
+#github-link:hover {
+    transform: translateY(-2px);
+}
+
+button:hover,
+.card:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 1px 1px 2px #000;
+}
+
+input {
+    font-weight: 500 !important;
+}

@@ -117,6 +117,10 @@ function quantityBook()
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        #search-area {
+            background: rgb(34, 149, 243) !important;
+        }
     </style>
 </head>
 
@@ -136,7 +140,7 @@ function quantityBook()
     <input type="checkbox" id="darkSwitch" style="display: none;">
 
     <!-- header -->
-    <header class="bg-light shadow-sm sticky-top w-100">
+    <header class="backdrop-filter shadow-sm sticky-top w-100">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand" tabindex="0" target="_blank" id="github-link"><img src="../public/icons/icon-header.png" loading="lazy"><span class="p-1" style="font-family:'Roboto', sans-serif;">Bibliozzin</span></a>
@@ -144,7 +148,7 @@ function quantityBook()
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbar">
-                    <ul class="navbar-nav d-flex align-items-center justify-content-end" style="width: 100%;">
+                    <ul class="navbar-nav d-flex align-items-center justify-content-end font-weight-bold" style="width: 100%;">
                         <li class="nav-item">
                             <a class="nav-link" href="#" id="form-addBook">Adicionar livro</a>
                         </li>
@@ -165,9 +169,9 @@ function quantityBook()
     <!-- /header -->
 
     <!-- pesquisa -->
-    <section class="bg-dark" id="search-area">
+    <section id="search-area">
         <div class="container">
-            <div class="row pt-3 d-flex justify-content-between">
+            <div class="row pt-3 d-flex justify-content-center">
                 <div class="col-md-7 col-12">
                     <form action="search.php" method="POST">
                         <div class="form-group d-flex justify-content-center align-items-center">
@@ -180,10 +184,10 @@ function quantityBook()
             <div class="d-flex justify-content-center">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link gradient-text" href="#alugarLivro">Alugar</a>
+                        <a class="nav-link text-white" href="#alugarLivro">Alugar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link gradient-text" href="#comprarLivro">Comprar</a>
+                        <a class="nav-link text-white" href="#comprarLivro">Comprar</a>
                     </li>
                 </ul>
             </div>
@@ -353,7 +357,7 @@ function quantityBook()
     <!-- aluguel e venda de livros -->
 
     <!-- footer -->
-    <footer class="bg-light p-2 d-flex flex-column justify-content-center align-items-center shadow-sm">
+    <footer class="bg-dark p-2 d-flex flex-column justify-content-center align-items-center shadow-sm">
         <ul class=" nav d-flex justify-content-center align-items-center">
             <li class="nav-item"><a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-instagram" style="font-size: 1.2rem;"></i></a>
             </li>
@@ -366,8 +370,8 @@ function quantityBook()
             <li class="nav-item"><a href="mailto:lezzin.contato@gmail.com" target="_blank" class="nav-link p-1 text-dark"><i class="fa-solid fa-envelope" style="font-size: 1.2rem;"></i></a>
             </li>
         </ul>
-        <a href="https://github.com/lezzin/" target="_blank" class="text-dark">&copy Leandro Adrian da Silva, 2022</a>
-        <small class="text-danger">Todos os direitos reservados</small>
+        <a href="https://github.com/lezzin/" target="_blank" class="text-white">&copy Leandro Adrian da Silva, 2022</a>
+        <small class="text-white">Todos os direitos reservados</small>
     </footer>
     <!-- /footer -->
 

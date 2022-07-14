@@ -41,6 +41,12 @@
     box-sizing: border-box
 }
 
+.backdrop-filter {
+    background: #2295f3e2 !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
 html {
     font-family: sans-serif;
     line-height: 1.15;

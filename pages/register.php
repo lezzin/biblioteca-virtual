@@ -1,7 +1,6 @@
 <?php
 
-if (isset($_POST['submit'])) 
-{
+if (isset($_POST['submit'])) {
     include_once('../config/config.php');
 
     // Variáveis do formulário
@@ -44,7 +43,7 @@ if (isset($_POST['submit']))
     <title>Cadastro | Bibliozzin</title>
 </head>
 
-<body style="font-family: 'Source Sans Pro', sans-serif;">
+<body style="font-family: 'Source Sans Pro', sans-serif;height:100vh;" class="d-flex flex-column justify-content-between">
     <!-- preloader -->
     <div id="preloader">
         <div class="inner">
@@ -56,10 +55,9 @@ if (isset($_POST['submit']))
         </div>
     </div>
     <!-- /preloader -->
-
     <input type="checkbox" id="darkSwitch" style="display: none;">
     <!-- header -->
-    <header class="bg-light">
+    <header class="bg-primary">
         <div class="container">
             <nav class=" navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand" target="_blank" tabindex="0" id="github-link"><img src="../public/icons/icon-header.png"><span class="p-1">Bibliozzin</span></a>
@@ -76,14 +74,16 @@ if (isset($_POST['submit']))
                             <a class="nav-link"><label for="darkSwitch" class="pt-2"><i class="fa-solid" id="labelDarkSwitch" tabindex="0" style="cursor: pointer;"></i></label></a>
                         </li>
                     </ul>
+                </div>
             </nav>
         </div>
     </header>
     <!-- /header -->
+
     <!-- formulario de cadastro -->
-    <h2 class="text-center mt-5">Cadastro</h2>
-    <div class="container mb-5 pt-2 mb-md-0 d-flex justify-content-center">
-        <form method="POST">
+    <h1 class="text-center mt-5">Cadastro</h1>
+    <div class="container pt-2 pb-5 mb-md-0 d-flex justify-content-center">
+        <form method="POST" style="font-size:1.3em">
             <div class="row">
                 <div class="col-12 col-md-6">
                     <div class="form-group">
@@ -137,8 +137,9 @@ if (isset($_POST['submit']))
         </form>
     </div>
     <!-- /formulario de cadastro -->
+
     <!-- footer -->
-    <footer class="bg-light p-2 mt-5 d-flex flex-column justify-content-center align-items-center">
+    <footer class="p-2 text-center">
         <ul class=" nav d-flex justify-content-center align-items-center p-1">
             <li class="nav-item"><a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-instagram" style="font-size: 1.4em;"></i></a>
             </li>
