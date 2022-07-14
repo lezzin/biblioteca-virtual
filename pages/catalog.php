@@ -119,7 +119,7 @@ function quantityBook()
         }
 
         #search-area {
-            background: rgb(34, 149, 243) !important;
+            background: #2295f3 !important;
         }
     </style>
 </head>
@@ -210,22 +210,24 @@ function quantityBook()
                 while ($data = mysqli_fetch_array($result)) { {
                         if ($data['quantidade'] == 0) {
                             echo "
-                                <div class='card m-1 rounded' style='width: 16rem; height: 16rem;' data-aos='fade-up'>
+                                <div class='card m-1 rounded' style='width: 16rem; height: 20rem;' data-aos='fade-up'>
                                     <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
+                                        <div class='card-img-top img-fluid pb-1'><img src='../public/book image/" . $data['imagem'] . "' width='64' height='64'></img></div>
                                         <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
                                         Ano de lançamento: "  . $data['ano'] . "<br>
                                         Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "<br>
                                         <p class='text-danger font-weight-bold'>Indisponível</p>                        
                                         <div class='d-flex justify-content-around mt-1 w-50'>
-                                            <a href='../config/delete.php?id=$data[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
+                                            <a href='../config/delete.php?id=$data[idLivro]' id='editCardBtn'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
                                             <a href='edit.php?id=$data[idLivro]'><img src='../public/icons/pencil.svg' width='16' height='16' loading='lazy'></a>
                                         </div>
                                     </div>
                                 </div>";
                         } else {
                             echo "
-                                <div class='card m-1 rounded' style='width: 16rem; height: 16rem;' data-aos='fade-up'>
+                                <div class='card m-1 rounded' style='width: 16rem; height: 20rem;' data-aos='fade-up'>
                                     <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
+                                        <div class='card-img-top img-fluid'><img src='../public/book image/" . $data['imagem'] . "' width='64' height='64'></img></div>
                                         <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
                                         Ano de lançamento: " . $data['ano'] . "<br>
                                         Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "<br>
@@ -250,7 +252,7 @@ function quantityBook()
     <!-- /catalogo -->
 
     <!-- aluguel e venda de livros -->
-    <section class="bg-dark p-5" id="home" style="overflow-y: hidden;">
+    <section class="bg-light p-5" id="home" style="overflow-y: hidden;">
         <div class="container rounded p-3">
             <div class="row pt-5" id="alugarLivro">
 
@@ -264,7 +266,7 @@ function quantityBook()
                         </div>
                         <div class="form-group">
                             <label for="dias" class="text-light">Insira quantos dias o livro será alugado.</label>
-                            <small id="dayHelp">1 dia = R$4,00</small>
+                            <small id="dayHelp" class="text-light">1 dia = R$4,00</small>
                             <input type="number" class="form-control" id="dias" name="dias" placeholder="Apenas o número... ex: 2" value="<?php rentNumber(); ?>" aria-describedby="dayHelp" required>
                             <?php
                             if (isset($_GET['calcularPrecoAluguel'])) {
@@ -357,7 +359,7 @@ function quantityBook()
     <!-- aluguel e venda de livros -->
 
     <!-- footer -->
-    <footer class="bg-dark p-2 d-flex flex-column justify-content-center align-items-center shadow-sm">
+    <footer class="bg-light p-2 d-flex flex-column justify-content-center align-items-center">
         <ul class=" nav d-flex justify-content-center align-items-center">
             <li class="nav-item"><a href="https://www.instagram.com/leandroadrian_/" target="_blank" class="nav-link p-1 text-dark"><i class="fa-brands fa-instagram" style="font-size: 1.2rem;"></i></a>
             </li>
@@ -370,8 +372,8 @@ function quantityBook()
             <li class="nav-item"><a href="mailto:lezzin.contato@gmail.com" target="_blank" class="nav-link p-1 text-dark"><i class="fa-solid fa-envelope" style="font-size: 1.2rem;"></i></a>
             </li>
         </ul>
-        <a href="https://github.com/lezzin/" target="_blank" class="text-white">&copy Leandro Adrian da Silva, 2022</a>
-        <small class="text-white">Todos os direitos reservados</small>
+        <a href="https://github.com/lezzin/" target="_blank" class="text-dark">&copy Leandro Adrian da Silva, 2022</a>
+        <small class="text-dark">Todos os direitos reservados</small>
     </footer>
     <!-- /footer -->
 
@@ -431,24 +433,24 @@ function quantityBook()
     AOS.init();
 
     $(document).ready(() => {
-        // Evita o autocomplete do google
-        $(document).ready(function() {
-            setTimeout(function() {
-                $('#email').removeAttr('disabled');
-                $('#senha').removeAttr('disabled');
-            }, 100);
-        });
+        setTimeout(() => {
+            $('#email').removeAttr('disabled');
+            $('#senha').removeAttr('disabled');
+        }, 100);
+
         // Caso não tenha nenhum livro no catálogo, os formulários não são mostrados
         let $nothingToShow = $("#nothingToShow").html()
         if ($nothingToShow != undefined) {
             $("#home").css("display", "none")
             $("#search-area").css("display", "none")
             $("body").css("overflow", "hidden")
+            $("body").css("height", "100vh")
+            $("body").addClass("d-flex flex-column justify-content-between")
+            $("footer").removeClass("bg-light")
         }
 
         checkBtnRent();
         checkBtnPurchase();
-
 
         // Condições que ao load da página, desabilitam os botões caso o livro dito não tenha estoque ou
         // o usuário tenha inserido informações erradas

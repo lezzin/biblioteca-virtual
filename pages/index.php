@@ -166,7 +166,7 @@ if (isset($_POST['sair'])) {
     <!-- informações do catalogo -->
     <section class="d-flex justify-content-center align-items-center flex-column" id="catalog" style="overflow-y: hidden !important; height:100vh;">
         <h2 class="text-center" data-aos="flip-up">O que você encontrará aqui?</h2>
-        <span class="mb-5 text-danger text-center" data-aos="flip-up">Aqui, você encontrará os mais variados gêneros de livros, dos mais variados autores. </span>
+        <h5 class="mb-5 text-danger text-center" data-aos="flip-up">Aqui, você encontrará os mais variados gêneros de livros, dos mais variados autores. </h5>
         <div class="container mb-2">
             <div class="row">
                 <div class="col-md-3 mt-md-0 mt-1 col-6" data-aos="fade-right">
@@ -210,42 +210,50 @@ if (isset($_POST['sair'])) {
                 </div>
             </div>
         </div>
-        <a href="../pages/catalog.php" class="btn btn-dark mt-4 mb-5" data-aos="flip-up">Acessar catálogo</a>
+        <button class="btn btn-dark mt-4 mb-5" data-aos="flip-up"><a href="../pages/catalog.php" class="nav-link">Acessar catálogo</a></button>
     </section>
     <!-- /informações do catalogo -->
 
     <!-- formulario para adição de livros ao bd -->
     <section class="bg-dark p-5" style="overflow-y: hidden !important;">
-        <div class=" text-center text-white mb-5 p-4" data-aos="flip-up">
+        <div class="text-center text-white mb-5 p-4" data-aos="flip-up">
             <h1 id="form">Formulários</h1>
-            <small class="muted">O livro adicionado poderá ser visto na aba <a href="./catalog.php">"catálogo"</a>.</small>
+            <small class="muted">O livro adicionado poderá ser visto na aba <a href="./catalog.php">"catálogo"</a>.</small><br>
+            <small class="muted px-2 w-75">Para adicionar uma imagem ao seu livro, basta fazer o download da mesma e colocá-la dentro da pasta "public/book image", assim, ao clicar no <a href="#form" id="inputFileLink">input file</a>, selecione a imagem que você fez o download normalmente</small><br>
+            <small class="text-info font-weight-bold">(Futuramente, a imagem não poderá ser alterada)</small>
         </div>
         <div class="container">
             <div class="row text-white d-block d-md-flex justify-content-around">
                 <div class="col-12 col-md-5" data-aos="fade-right" tabindex="0">
-                    <form action="index.php#form" method="POST">
+                    <form action="index.php#form" method="POST" enctype="multipart/form-data">
                         <div class="form-title">
                             <h1 class="text-center">Adicionar livro</h1>
                         </div>
                         <div class="form-group">
                             <label for="nome">Nome do livro</label>
-                            <input type="text" name="nome" id="nome" class="form-control border-0" placeholder="Nome do livro" spellcheck="false" required>
+                            <input type="text" name="nome" id="nome" class="form-control border-0" placeholder="Nome do livro" spellcheck="false" required />
                         </div>
                         <div class="form-group">
                             <label for="ano">Ano do livro</label>
-                            <input type="number" name="ano" id="ano" class="form-control border-0" placeholder="Ano do livro" required>
+                            <input type="number" name="ano" id="ano" class="form-control border-0" placeholder="Ano do livro" required />
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="preco">Preço</label>
-                                    <input type="number" name="preco" id="preco" class="form-control border-0 pl-2" placeholder="Preço do livro" required>
+                                    <input type="number" name="preco" id="preco" class="form-control border-0 pl-2" placeholder="Preço do livro" required />
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="quantidade">Quantidade</label>
-                                    <input type="number" name="quantidade" id="quantidade" class="form-control border-0 pl-2" placeholder="Informe a quantidade" required>
+                                    <input type="number" name="quantidade" id="quantidade" class="form-control border-0 pl-2" placeholder="Informe a quantidade" required />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <div class="form-group">
+                                    <label for="quantidade">Imagem</label>
+                                    <input type="file" name="uploadfile" id="quantidade" class="form-control border-0 pl-2" placeholder="Insira a imagem do livro" required />
                                 </div>
                             </div>
                         </div>
@@ -260,6 +268,8 @@ if (isset($_POST['sair'])) {
                         $bookYear = $_POST['ano'];
                         $bookPrice = $_POST['preco'];
                         $quantity = $_POST['quantidade'];
+                        $filename = $_FILES["uploadfile"]["name"];
+
                         // Comando SQL
                         $selectBookName = "SELECT `nome` FROM `livro` WHERE `nome` = '$bookName'";
                         // Armaneza o resultado do comando na variável $verification - aqui é literalmente como o query do MySQL 
@@ -270,11 +280,12 @@ if (isset($_POST['sair'])) {
                             echo "<p>Já existe um livro com esse nome</p>";
                         } else {
                             // Caso tenha:
+                            // Execute query
                             // Comando SQL novamente
-                            $insertBooks = "INSERT INTO livro(nome, ano, preco, quantidade) VALUES ('$bookName', '$bookYear','$bookPrice','$quantity')";
+                            $insertBooks = "INSERT INTO livro(nome, ano, preco, quantidade, imagem) VALUES ('$bookName', '$bookYear','$bookPrice','$quantity','$filename')";
                             //Armazena o resultado na variável result, insere os dados no banco de dados e exibe a mensagem para o usuário entender que o comando aconteceu e foi sucedido
                             $result = $conexao->query($insertBooks);
-                            echo "<span class='text-info'>Livro adicionado";
+                            echo "<span class='text-info' id='addBookMessage'>Livro adicionado</span>";
                         }
                     }
                     ?>
@@ -473,6 +484,12 @@ if (isset($_POST['sair'])) {
             return false;
         });
         // fadeIn e FadeOut são funções do jquery, são como o opacity 0 e opacity 1 com o transition
+
+        if ($('#addBookMessage') !== undefined) {
+            setTimeout(() => {
+                $('#addBookMessage').fadeOut();
+            }, 4000)
+        }
     });
 
     $("#catalogLink").click(() => {
