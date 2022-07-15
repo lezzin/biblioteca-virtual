@@ -99,7 +99,7 @@ function quantityBook()
 
         #showMoreInformations,
         #showPrice {
-            border-color: transparent !important;
+            border-color: transparent;
         }
 
         .gradient-text {
@@ -119,7 +119,41 @@ function quantityBook()
         }
 
         #search-area {
-            background: #2295f3 !important;
+            background: #2295f3;
+        }
+
+        .card {
+            position: relative;
+        }
+
+        .card:hover {
+            box-shadow: none !important;
+        }
+
+        .card-body {
+            background: #fff;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: .5s;
+            position: absolute;
+            opacity: 0;
+        }
+
+        .card .img-fluid {
+            width: 16rem !important;
+            height: 22rem !important;
+        }
+
+        .card-body h5,
+        .card-body p {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .card:hover>.card-body {
+            opacity: 1;
         }
     </style>
 </head>
@@ -210,37 +244,37 @@ function quantityBook()
                 while ($data = mysqli_fetch_array($result)) { {
                         if ($data['quantidade'] == 0) {
                             echo "
-                                <div class='card m-1 rounded' style='width: 16rem; height: 20rem;' data-aos='fade-up'>
-                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
-                                        <div class='card-img-top img-fluid pb-1'><img src='../public/book image/" . $data['imagem'] . "' width='64' height='64'></img></div>
+                                <div class='card m-1 rounded' style='width: 16rem; height='22rem' data-aos='fade-up'>
+                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center pt-5'>
                                         <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
-                                        Ano de lançamento: "  . $data['ano'] . "<br>
-                                        Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "<br>
+                                        <p>Ano de lançamento: "  . $data['ano'] . "</p>
+                                        <p>Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "</p>
                                         <p class='text-danger font-weight-bold'>Indisponível</p>                        
                                         <div class='d-flex justify-content-around mt-1 w-50'>
                                             <a href='../config/delete.php?id=$data[idLivro]' id='editCardBtn'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
                                             <a href='edit.php?id=$data[idLivro]'><img src='../public/icons/pencil.svg' width='16' height='16' loading='lazy'></a>
                                         </div>
                                     </div>
+                                    <img class='pb-1 img-fluid' src='../public/book image/" . $data['imagem'] . "'></img>
                                 </div>";
                         } else {
                             echo "
-                                <div class='card m-1 rounded' style='width: 16rem; height: 20rem;' data-aos='fade-up'>
-                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
-                                        <div class='card-img-top img-fluid'><img src='../public/book image/" . $data['imagem'] . "' width='64' height='64'></img></div>
+                                <div class='card m-1 rounded' style='width: 16rem; height='22rem' data-aos='fade-up'>
+                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center pt-5'>
                                         <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
-                                        Ano de lançamento: " . $data['ano'] . "<br>
-                                        Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "<br>
-                                        Disponíveis: " . $data['quantidade'] . "<br>
+                                        <p>Ano de lançamento: " . $data['ano'] . "</p>
+                                        <p>Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "</p>
+                                        <p>Disponíveis: " . $data['quantidade'] . "</p>
                                         <div class='btn-group pt-1 pb-1' role='group'>
                                             <a href='#alugarLivro' class='btn btn-secondary'>Alugar</a>
                                             <a href='#comprarLivro' class='btn btn-secondary'>Comprar</a>
                                         </div>
-                                        <div class='d-flex justify-content-around mt-1 w-50'>
+                                        <div class='d-flex justify-content-around align-items-center mt-1 w-50'>
                                             <a href='../config/delete.php?id=$data[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
                                             <a href='edit.php?id=$data[idLivro]'><img src='../public/icons/pencil.svg' width='16' height='16' loading='lazy'></a>
                                         </div>
                                     </div>
+                                    <img class='pb-1 img-fluid' src='../public/book image/" . $data['imagem'] . "'></img>
                                 </div>";
                         }
                     }

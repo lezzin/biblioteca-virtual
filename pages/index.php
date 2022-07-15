@@ -488,7 +488,7 @@ if (isset($_POST['sair'])) {
         if ($('#addBookMessage') !== undefined) {
             setTimeout(() => {
                 $('#addBookMessage').fadeOut();
-            }, 4000)
+            }, 2000)
         }
     });
 

@@ -9,8 +9,7 @@ if (isset($_POST['enviarEdicao'])) {
     $ano = $_POST['ano'];
     $preco = $_POST['preco'];
     $quantidade = $_POST['quantidade'];
-    $imagem = $_FILES['imagem']['name'];
-    $sqlUpdate = "UPDATE livro SET nome = '$nome', ano = '$ano', preco = '$preco', quantidade = '$quantidade', imagem = '$imagem' WHERE idLivro='$idLivro'";
+    $sqlUpdate = "UPDATE livro SET nome = '$nome', ano = '$ano', preco = '$preco', quantidade = '$quantidade' WHERE idLivro='$idLivro'";
 
     $updateDatabase = $conexao->query($sqlUpdate);
     echo "

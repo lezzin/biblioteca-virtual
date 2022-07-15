@@ -118,14 +118,14 @@ if (isset($_POST['submit'])) {
                 <div class="col-12 col-md-6">
                     <div class="form-group d-flex flex-column">
                         <label for="senha" id="status-senha">Senha</label>
-                        <input type="password" name="senha" class="form-control inputSenha" id="senha" placeholder="Sua senha" minlength="6" maxlength="10" required disabled>
+                        <input type="password" name="senha" class="form-control inputSenha" id="senha" placeholder="Sua senha" minlength="5" maxlength="12" required disabled>
                         <small id="nCaracteres" style="font-size: .8rem;" class="pt-1"></small>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label for="senha">Confirmar senha</label>
-                        <input type="password" name="senha" class="form-control inputSenha" id="confirmar_senha" placeholder="Insira a senha novamente" minlength="6" maxlength="10" required disabled>
+                        <input type="password" name="senha" class="form-control inputSenha" id="confirmar_senha" placeholder="Insira a senha novamente" minlength="5" maxlength="12" required disabled>
                         <small id="nCaracteres2" style="font-size: .8rem;"></small>
                     </div>
                 </div>
@@ -134,6 +134,7 @@ if (isset($_POST['submit'])) {
                 <button type="submit" name="submit" class="btn btn-primary">Cadastrar-se</button>
                 <button type="button" id="botao-olho" tabindex="0" class="btn btn-light ml-1"><img width="16" height="16" id="exibe" src="../public/icons/eye.svg"></button>
             </div>
+            <a id="generateBtn" class="text-primary font-weight-bold" style="font-size: .7em;text-decoration:none; cursor:pointer;">Gerar senha</a>
         </form>
     </div>
     <!-- /formulario de cadastro -->
@@ -154,6 +155,34 @@ if (isset($_POST['submit'])) {
 </body>
 
 <script type="text/javascript">
+    // Gerador de senhas
+    $("#generateBtn").click(function() {
+        passwordLength = prompt("Insira o tamanho da senha (entre 5 e 12):");
+
+        if (passwordLength == "") {} else {
+            let i, password, charset, length;
+            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            length = charset.length;
+            password = "";
+
+            if (passwordLength < 5 || passwordLength > 12) {
+                alert("Insira um número maior que 4 e menor que 13")
+                return;
+            }
+
+            for (let i = 0; i < passwordLength; i++) {
+                password += charset.charAt(Math.floor(Math.random() * length))
+            }
+            if (passwordLength == "") {} else {
+                alert("Senha gerada com sucesso");
+                $("#senha").val(password);
+                $("#confirmar_senha").val(password);
+                $senhas.attr("type", "text");
+            }
+        }
+
+    });
+
     // Evitar o autocomplete de formulários do google
     $(document).ready(function() {
         setTimeout(function() {
