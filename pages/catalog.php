@@ -204,35 +204,24 @@ function quantityBook()
 
     <!-- pesquisa -->
     <section id="search-area">
-        <div class="container">
-            <div class="row pt-3 d-flex justify-content-center">
-                <div class="col-md-7 col-12">
-                    <form action="search.php" method="POST">
-                        <div class="form-group d-flex justify-content-center align-items-center">
-                            <input class="form-control border-dark" name="search" id="search" type="search" placeholder="Pesquisar" aria-label="Search" spellcheck="false">
-                            <button type="submit" class="btn btn-success ml-1" name="pesquisar" id="pesquisar">ir</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#alugarLivro">Alugar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#comprarLivro">Comprar</a>
-                    </li>
-                </ul>
-            </div>
+        <div class="container pt-3 d-flex justify-content-center align-items-center flex-column">
+            <input class="form-control border-dark" id="search" type="search" placeholder="Pesquisar" spellcheck="false" style="width: 600px;">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#alugarLivro">Alugar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#comprarLivro">Comprar</a>
+                </li>
+            </ul>
         </div>
     </section>
     <!-- /pesquisa -->
 
     <!-- catalogo -->
-    <div class="container mt-4 mb-5">
+    <div class="container mt-4 mb-5" style="min-height:calc(427px);">
         <?php echo "<h3 class='text-center pb-4'>Olá $user, esse é o nosso catálogo.</h3>"; ?>
-        <div class="row d-flex justify-content-center align-items-center">
+        <div class=" row d-flex justify-content-center align-items-center">
             <?php
 
             if ($result->num_rows == 0) {
@@ -466,6 +455,7 @@ function quantityBook()
 <script type="text/javascript">
     AOS.init();
 
+
     $(document).ready(() => {
         setTimeout(() => {
             $('#email').removeAttr('disabled');
@@ -506,6 +496,22 @@ function quantityBook()
         // Botões do formulário de compra
         if (wrongPurchaseBookName || invalidPurchaseBookName || noPurchaseStock) {
             $("#btnCompra").css("display", "none");
+        }
+    });
+
+    // Filtro na barra de pesquisa
+    $('#search').on("keypress input", function(e) {
+        if (e.keyCode == 13 || e.type == 'input') {
+            var word = $('#search').val().toUpperCase();
+            $('.card-title').each(function() {
+                // O método closest() encontra o parente mais próximo do elemento, de acordo com o nome inserido entre parênteses
+                var target = $(this).closest('.card');
+                if ($(this).html().toUpperCase().indexOf(word) === -1) {
+                    target.hide(500);
+                } else {
+                    target.show(500);
+                }
+            });
         }
     });
 
