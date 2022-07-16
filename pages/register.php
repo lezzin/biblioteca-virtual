@@ -39,6 +39,7 @@ if (isset($_POST['submit'])) {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../bootstrap/bootstrap.min.css"></script>
+    <script src="../public/js/jquery.mask.min.js"></script>
 
     <title>Cadastro | Bibliozzin</title>
 </head>
@@ -102,15 +103,13 @@ if (isset($_POST['submit'])) {
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label for="telefone">Telefone</label>
-                        <input type="tel" name="telefone" pattern="[0-9]{2}-[0-9]{5}-[0-9]{4}" class="form-control" id="telefone" placeholder="Telefone" aria-describedby="pattern-tel" required>
-                        <small id="pattern-tel" class="form-text text-muted">Formato: XX-XXXXX-XXXX.</small>
+                        <input type="tel" name="telefone" class="form-control" id="telefone" placeholder="Telefone" required>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="form-group">
                         <label for="cpf">CPF</label>
-                        <input type="text" name="cpf" class="form-control" id="cpf" placeholder="Seu CPF" required aria-describedby="pattern-cpf">
-                        <small id="pattern-cpf" class="form-text text-muted">Formato: XXX.XXX.XXX-XX.</small>
+                        <input type="text" name="cpf" class="form-control" id="cpf" placeholder="Seu CPF" required>
                     </div>
                 </div>
             </div>
@@ -190,6 +189,14 @@ if (isset($_POST['submit'])) {
             $('#senha').removeAttr('disabled');
             $('#confirmar_senha').removeAttr('disabled');
         }, 100);
+
+        // Máscaras para os inputs
+        $cpfInput = $("#cpf");
+        $telephoneInput = $("#telefone");
+
+        $cpfInput.mask("000.000.000-00");
+        $telephoneInput.mask("00-00000-0000")
+
     });
 
     // Aqui há o uso das expressões regulares para verificar a força da senha

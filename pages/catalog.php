@@ -81,6 +81,7 @@ function quantityBook()
     <script src="../bootstrap/bootstrap.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../public/js/jquery.mask.min.js"></script>
 
     <title>Catálogo | Bibliozzin</title>
 
@@ -123,11 +124,13 @@ function quantityBook()
         }
 
         .card {
+            cursor: default;
             position: relative;
+            transition: .5s;
         }
 
         .card:hover {
-            box-shadow: none !important;
+            transform: scale(1.05);
         }
 
         .card-body {
@@ -136,24 +139,22 @@ function quantityBook()
             height: 100%;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            transition: .5s;
+            transition: .3s;
             position: absolute;
             opacity: 0;
         }
 
         .card .img-fluid {
-            width: 16rem !important;
-            height: 22rem !important;
+            width: 12rem !important;
+            height: 17rem !important;
         }
 
         .card-body h5,
         .card-body p {
+            margin: 0;
+            padding: 0;
             color: #000;
             font-weight: bold;
-        }
-
-        .card:hover>.card-body {
-            opacity: 1;
         }
     </style>
 </head>
@@ -233,13 +234,13 @@ function quantityBook()
                 while ($data = mysqli_fetch_array($result)) { {
                         if ($data['quantidade'] == 0) {
                             echo "
-                                <div class='card m-1 rounded' style='width: 16rem; height='22rem' data-aos='fade-up'>
-                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center pt-5'>
-                                        <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
-                                        <p>Ano de lançamento: "  . $data['ano'] . "</p>
-                                        <p>Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "</p>
-                                        <p class='text-danger font-weight-bold'>Indisponível</p>                        
-                                        <div class='d-flex justify-content-around mt-1 w-50'>
+                                <div class='card m-1 rounded' style='width: 12rem; height='17rem'>
+                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center'>
+                                        <h5 class='card-title p-1' tabindex='0'>" . $data['nome'] . "</h5>
+                                        <p tabindex='0'>Ano de lançamento: "  . $data['ano'] . "</p>
+                                        <p tabindex='0'>Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "</p>
+                                        <p class='text-danger font-weight-bold' tabindex='0'>Indisponível</p>                        
+                                        <div class='d-flex justify-content-around pt-2 w-50'>
                                             <a href='../config/delete.php?id=$data[idLivro]' id='editCardBtn'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
                                             <a href='edit.php?id=$data[idLivro]'><img src='../public/icons/pencil.svg' width='16' height='16' loading='lazy'></a>
                                         </div>
@@ -248,17 +249,17 @@ function quantityBook()
                                 </div>";
                         } else {
                             echo "
-                                <div class='card m-1 rounded' style='width: 16rem; height='22rem' data-aos='fade-up'>
-                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center pt-5'>
-                                        <h5 class='card-title' tabindex='0'>" . $data['nome'] . "</h5>
-                                        <p>Ano de lançamento: " . $data['ano'] . "</p>
-                                        <p>Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "</p>
-                                        <p>Disponíveis: " . $data['quantidade'] . "</p>
-                                        <div class='btn-group pt-1 pb-1' role='group'>
+                                <div class='card m-1 rounded' style='width: 12rem; height='17rem'>
+                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center' aria-hidden='true'>
+                                        <h5 class='card-title p-1' tabindex='0'>" . $data['nome'] . "</h5>
+                                        <p tabindex='0'>Ano de lançamento: " . $data['ano'] . "</p>
+                                        <p tabindex='0'>Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "</p>
+                                        <p tabindex='0'>Disponíveis: " . $data['quantidade'] . "</p>
+                                        <div class='btn-group' role='group'>
                                             <a href='#alugarLivro' class='btn btn-secondary'>Alugar</a>
                                             <a href='#comprarLivro' class='btn btn-secondary'>Comprar</a>
                                         </div>
-                                        <div class='d-flex justify-content-around align-items-center mt-1 w-50'>
+                                        <div class='d-flex justify-content-around align-items-center pt-2 w-50'>
                                             <a href='../config/delete.php?id=$data[idLivro]'><img src='../public/icons/trash-can-solid.svg' width='16' height='16' loading='lazy'></a>
                                             <a href='edit.php?id=$data[idLivro]'><img src='../public/icons/pencil.svg' width='16' height='16' loading='lazy'></a>
                                         </div>
@@ -422,7 +423,7 @@ function quantityBook()
                         </div>
                         <div class="form-group">
                             <label for="cpf" class="col-form-label text-dark">CPF</label>
-                            <input type="number" class="form-control" name="cpf-usuario" id="cpf" placeholder="Seu CPF" required>
+                            <input type="text" class="form-control" name="cpf-usuario" id="cpf" placeholder="Seu CPF" required>
                         </div>
                         <div class="form-group">
                             <label for="tipo-de-compra" class="col-form-label text-dark">Aluguel ou compra?</label>
@@ -471,7 +472,7 @@ function quantityBook()
             $("body").css("height", "100vh")
             $("body").addClass("d-flex flex-column justify-content-between")
             $("footer").removeClass("bg-light")
-        }
+        };
 
         checkBtnRent();
         checkBtnPurchase();
@@ -490,13 +491,18 @@ function quantityBook()
 
         // Botões do formulário de aluguel
         if (wrongRentBookName || invalidRentBookName || noRentStock) {
-            $("#btnAluguel").css("display", "none");
-        }
+            $rentButton.css("display", "none");
+        };
 
         // Botões do formulário de compra
         if (wrongPurchaseBookName || invalidPurchaseBookName || noPurchaseStock) {
             $("#btnCompra").css("display", "none");
-        }
+        };
+
+        // Aplicar máscara no input de CPF no formulário de aluguel/compra (modal)
+        var $seuCampoCpf = $("#cpf");
+        $seuCampoCpf.mask('000.000.000-00');
+
     });
 
     // Filtro na barra de pesquisa
@@ -507,9 +513,9 @@ function quantityBook()
                 // O método closest() encontra o parente mais próximo do elemento, de acordo com o nome inserido entre parênteses
                 var target = $(this).closest('.card');
                 if ($(this).html().toUpperCase().indexOf(word) === -1) {
-                    target.hide(500);
+                    target.fadeOut(500);
                 } else {
-                    target.show(500);
+                    target.fadeIn(500);
                 }
             });
         }
@@ -537,96 +543,104 @@ function quantityBook()
 
     // Variáveis formulário de aluguel
     $rent = $("#rentPrice").text();
-    $days = $("#dias").val();
-    $bookRentedID = $("#bookId").val();
+    $daysInput = $("#dias");
+    $bookRentedIDInput = $("#bookId")
     // Variáveis formulário de compra
     $purchase = $("#price").text();
     $quantity = "<?php quantityBook() ?>";
-    $bookPurchasedID = $("#bookPurchasedID").val();
+    $bookPurchasedIDInput = $("#bookPurchasedID");
 
-    $botaoFinalizarPedido = $("#btn-submit");
+    $finalizeOrderButton = $("#btn-submit");
     $showPrice = $('#showPrice');
     $showInformation = $('#showMoreInformations');
-    $inputBookID = $("#auxiliarInput");
+    $bookIDInput = $("#auxiliarInput");
 
-    $rentBook = $("#nomeLivroAlugado").val();
-    $purchaseBook = $("#nomeLivroComprado").val();
+    $rentBookInput = $("#nomeLivroAlugado");
+    $purchaseBookName = $("#nomeLivroComprado");
 
     // Condições para cada opção do input select do modal (linha 331)
     $('#tipo-de-compra').change(function() {
-        $valueSelect = $('#tipo-de-compra').val();
+        $selectOption = $('#tipo-de-compra').val();
         $showPrice.css('display', 'block');
 
         // Opção 1
-        if ($valueSelect == '---') {
-            $botaoFinalizarPedido.attr("disabled", "");
+        if ($selectOption == '---') {
+            $finalizeOrderButton.attr("disabled", "");
 
             $showInformation.css('display', 'none');
-            $("#showPrice").val("Por favor, selecione uma das opções");
+            $showPrice.val("Por favor, selecione uma das opções");
         }
 
         // Opção 2
-        if ($valueSelect == 'Aluguel') {
+        if ($selectOption == 'Aluguel') {
             $("#form-submit").attr("action", "../config/rent.php");
-            $inputBookID.val($bookRentedID);
+            $bookIDInput.val($bookRentedIDInput.val());
 
             if ($rent == '') {
-                $botaoFinalizarPedido.attr("disabled", "");
-                $showInformation.css('display', 'none');
                 $showPrice.val("Calcule o preço antes de alugar o livro");
+                $finalizeOrderButton.attr("disabled", "");
+                $showInformation.css('display', 'none');
             } else {
-                $botaoFinalizarPedido.removeAttr("disabled");
-                $showPrice.val(`Esse é o preço do aluguel do livro "${$rentBook}": R$${$rent}`);
+                $showPrice.val(`Preço do aluguel do livro "${$rentBookInput.val()}": R$${$rent}`);
+                $finalizeOrderButton.removeAttr("disabled");
                 $showInformation.css('display', 'block');
-                $showInformation.val("O livro será alugado por: " + $days + " dia(s)") && $botaoFinalizarPedido.removeAttr("disabled");;
+                $showInformation.val("O livro será alugado por: " + $daysInput.val() + " dia(s)") && $finalizeOrderButton.removeAttr("disabled");;
             }
         }
 
         // Opção 3
-        if ($valueSelect == 'Compra') {
+        if ($selectOption == 'Compra') {
             $("#form-submit").attr("action", "../config/purchase.php");
-            $inputBookID.val($bookPurchasedID);
+            $bookIDInput.val($bookPurchasedIDInput.val());
             if ($purchase == '') {
-                $botaoFinalizarPedido.attr("disabled", "");
                 $showPrice.val("Calcule o preço antes de comprar o livro");
+                $finalizeOrderButton.attr("disabled", "");
                 $showInformation.css('display', 'none');
             } else {
-                $botaoFinalizarPedido.removeAttr("disabled");
-                $showPrice.val(`Esse é o preço do livro "${$purchaseBook}": R$${$purchase}`);
+                $showPrice.val(`Preço do livro "${$purchaseBookName.val()}": R$${$purchase}`);
+                $finalizeOrderButton.removeAttr("disabled");
                 $showInformation.css('display', 'block');
-                $showInformation.val("Quantidade de livros a serem comprados: " + $quantity + " livro(s)") && $botaoFinalizarPedido.removeAttr("disabled");
+                $showInformation.val("Quantidade de livros a serem comprados: " + $quantity + " livro(s)") && $finalizeOrderButton.removeAttr("disabled");
             }
         }
     });
 
+    $rentButton = $("#btnAluguel");
+    $rentButtonCalculator = $("#calcularPrecoAluguel");
+
+    $purchaseButton = $("#btnCompra");
+    $purchaseButtonCalculator = $("#btnCalculo");
+
     // Funções que habilitam/desabilitam os botões
     function checkBtnRent() {
-        if ($("#nomeLivroAlugado").val().length < 3 || $("#dias").val().length < 1) {
-            $("#btnAluguel").attr("disabled", "");
-            $("#calcularPrecoAluguel").attr("disabled", "");
+        if ($rentBookInput.val().length < 3 || $daysInput.val().length < 1) {
+            $rentButton.attr("disabled", "");
+            $rentButtonCalculator.attr("disabled", "");
             return;
         }
-        $("#btnAluguel").removeAttr("disabled");
-        $("#calcularPrecoAluguel").removeAttr("disabled");
+        $rentButton.removeAttr("disabled");
+        $rentButtonCalculator.removeAttr("disabled");
     };
 
+    $quantityBooksInput = $("#quantidadeLivro")
+
     function checkBtnPurchase() {
-        if ($("#nomeLivroComprado").val().length < 3 || $("#quantidadeLivro").val().length < 1) {
-            $("#btnCompra").attr("disabled", "");
-            $("#btnCalculo").attr("disabled", "");
+        if ($purchaseBookName.val().length < 3 || $quantityBooksInput.val().length < 1) {
+            $purchaseButtonCalculator.attr("disabled", "");
+            $purchaseButton.attr("disabled", "");
             return;
         }
-        $("#btnCompra").removeAttr("disabled");
-        $("#btnCalculo").removeAttr("disabled");
+        $purchaseButtonCalculator.removeAttr("disabled");
+        $purchaseButton.removeAttr("disabled");
     };
 
     // Eventos nos botões de aluguel
-    $("#nomeLivroAlugado").on("input", checkBtnRent);
-    $("#dias").on("input", checkBtnRent);
+    $rentBookInput.on("input", checkBtnRent);
+    $daysInput.on("input", checkBtnRent);
 
     //Eventos nos botões de compra
-    $("#nomeLivroComprado").on("input", checkBtnPurchase);
-    $("#quantidadeLivro").on("input", checkBtnPurchase);
+    $purchaseBookName.on("input", checkBtnPurchase);
+    $quantityBooksInput.on("input", checkBtnPurchase);
 
     $("#form-addBook").click(() => {
         if (confirm("Você será dimensionado para uma página na mesma janela")) {
@@ -638,6 +652,16 @@ function quantityBook()
             $("#catalog-home").attr("href", "./index.php");
         }
     });
+
+    // Função para mostrar o conteúdo do card, tanto com o uso do TAB ou mouse
+    for (const key of $(".card")) {
+        $(key).on("focusin mouseover", () => {
+            $(key).children(".card-body").css("opacity", "1")
+        })
+        $(key).on("focusout mouseout", () => {
+            $(key).children(".card-body").css("opacity", "0")
+        })
+    }
 </script>
 <script src="../public/js/theme.js"></script>
 <script src="../public/js/pace.js"></script>
