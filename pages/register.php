@@ -9,13 +9,26 @@ if (isset($_POST['submit'])) {
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
     $senha = $_POST['senha'];
-    // São armazenados no banco de dados os dados inseridos no formulário
-    $result = mysqli_query($conexao, "INSERT INTO cliente(nome, CPF, telefone, email, senha) VALUES ('$nome', '$cpf', '$telefone', '$email','$senha')");
-    echo "
-    <script>
-    alert(Cadastrado com sucesso! Agora, basta inserir os dados novamente no formulário de login para entrar no site');
-    window.location = '../login.php';
-    </script>";
+
+    // Verificar se há uma conta com o email inserido
+    $verifyEmail = "SELECT `email` FROM `cliente` WHERE `email` = '$email'";
+    $verification = $conexao->query($verifyEmail);
+
+    if ($verification->num_rows > 0) {
+        echo "
+        <script>
+        alert('Já existe uma conta cadastrada com esse email!');
+        </script>";
+    } else {
+        // São armazenados no banco de dados os dados inseridos no formulário
+        $insertDatas = "INSERT INTO cliente(nome, CPF, telefone, email, senha) VALUES ('$nome', '$cpf', '$telefone', '$email','$senha')";
+        $result = $conexao->query($insertDatas);
+        echo "
+        <script>
+        alert('Cadastrado com sucesso! Agora, basta inserir os dados novamente no formulário de login para entrar no site');
+        window.location = '../login.php';
+        </script>";
+    }
 }
 ?>
 
@@ -133,7 +146,7 @@ if (isset($_POST['submit'])) {
                 <button type="submit" name="submit" class="btn btn-primary">Cadastrar-se</button>
                 <button type="button" id="botao-olho" tabindex="0" class="btn btn-light ml-1"><img width="16" height="16" id="exibe" src="../public/icons/eye.svg"></button>
             </div>
-            <a id="generateBtn" class="text-primary font-weight-bold" style="font-size: .7em;text-decoration:none; cursor:pointer;">Gerar senha</a>
+            <a tabindex="0" id="generateBtn" class="text-primary font-weight-bold" style="font-size: .7em;text-decoration:none; cursor:pointer;">Gerar senha</a>
         </form>
     </div>
     <!-- /formulario de cadastro -->
@@ -155,31 +168,32 @@ if (isset($_POST['submit'])) {
 
 <script type="text/javascript">
     // Gerador de senhas
-    $("#generateBtn").click(function() {
-        passwordLength = prompt("Insira o tamanho da senha (entre 5 e 12):");
+    $("#generateBtn").on("click keypress", function(e) {
+        if (e.which == 13 || e.type == 'click') {
+            passwordLength = prompt("Insira o tamanho da senha (entre 5 e 12):");
 
-        if (passwordLength == "") {} else {
-            let i, password, charset, length;
-            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            length = charset.length;
-            password = "";
-
-            if (passwordLength < 5 || passwordLength > 12) {
-                alert("Insira um número maior que 4 e menor que 13")
-                return;
-            }
-
-            for (let i = 0; i < passwordLength; i++) {
-                password += charset.charAt(Math.floor(Math.random() * length))
-            }
             if (passwordLength == "") {} else {
-                alert("Senha gerada com sucesso");
-                $("#senha").val(password);
-                $("#confirmar_senha").val(password);
-                $senhas.attr("type", "text");
+                let i, password, charset, length;
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                length = charset.length;
+                password = "";
+
+                if (passwordLength < 5 || passwordLength > 12) {
+                    alert("Insira um número maior que 4 e menor que 13")
+                    return;
+                }
+
+                for (let i = 0; i < passwordLength; i++) {
+                    password += charset.charAt(Math.floor(Math.random() * length))
+                }
+                if (passwordLength == "") {} else {
+                    alert("Senha gerada com sucesso");
+                    $("#senha").val(password);
+                    $("#confirmar_senha").val(password);
+                    $senhas.attr("type", "text");
+                }
             }
         }
-
     });
 
     // Evitar o autocomplete de formulários do google
@@ -195,7 +209,7 @@ if (isset($_POST['submit'])) {
         $telephoneInput = $("#telefone");
 
         $cpfInput.mask("000.000.000-00");
-        $telephoneInput.mask("00-00000-0000")
+        $telephoneInput.mask("(00) 00000-0000")
 
     });
 
