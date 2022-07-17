@@ -225,7 +225,7 @@ if (isset($_POST['sair'])) {
         <div class="container">
             <div class="row text-white d-block d-md-flex justify-content-around">
                 <div class="col-12 col-md-5" data-aos="fade-right" tabindex="0">
-                    <form action="index.php#form" method="POST" enctype="multipart/form-data">
+                    <form action="index.php#form" method="POST" enctype="multipart/form-data" id="submit-form">
                         <div class="form-title">
                             <h1 class="text-center">Adicionar livro</h1>
                         </div>
@@ -250,10 +250,20 @@ if (isset($_POST['sair'])) {
                                     <input type="number" name="quantidade" id="quantidade" class="form-control border-0 pl-2" placeholder="Informe a quantidade" required />
                                 </div>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-7">
                                 <div class="form-group">
-                                    <label for="quantidade">Imagem</label>
-                                    <input type="file" name="uploadfile" id="quantidade" class="form-control border-0 pl-2" placeholder="Insira a imagem do livro" required />
+                                    <label id="imageLabel" for="uploadfile">Imagem</label>
+                                    <input type="file" accept="*" name="uploadfile" id="imagem" class="form-control border-0 pl-2" placeholder="Insira a imagem do livro" required />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <div class="form-group">
+                                    <label for="genero">Selecione o gênero</label>
+                                    <select class="form-control" name="genero" id="genero" required>
+                                        <option value="1">Programação</option>
+                                        <option value="2">Infantil</option>
+                                        <option value="3">Outro</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -269,6 +279,7 @@ if (isset($_POST['sair'])) {
                         $bookPrice = $_POST['preco'];
                         $quantity = $_POST['quantidade'];
                         $filename = $_FILES["uploadfile"]["name"];
+                        $gender = intval($_POST['genero']);
 
                         // Comando SQL
                         $selectBookName = "SELECT `nome` FROM `livro` WHERE `nome` = '$bookName'";
@@ -277,12 +288,12 @@ if (isset($_POST['sair'])) {
 
                         // Caso o resultado não tenha nenhum dado, exibe a mensagem:
                         if ($verification->num_rows > 0) {
-                            echo "<p>Já existe um livro com esse nome</p>";
+                            echo "<p id='exists'>Já existe um livro com esse nome</p>";
                         } else {
                             // Caso tenha:
                             // Execute query
                             // Comando SQL novamente
-                            $insertBooks = "INSERT INTO livro(nome, ano, preco, quantidade, imagem) VALUES ('$bookName', '$bookYear','$bookPrice','$quantity','$filename')";
+                            $insertBooks = "INSERT INTO livro(nome, ano, preco, quantidade, imagem, fk_genero) VALUES ('$bookName', '$bookYear', '$bookPrice', '$quantity', '$filename', $gender)";
                             //Armazena o resultado na variável result, insere os dados no banco de dados e exibe a mensagem para o usuário entender que o comando aconteceu e foi sucedido
                             $result = $conexao->query($insertBooks);
                             echo "<span class='text-info' id='addBookMessage'>Livro adicionado</span>";
@@ -487,7 +498,13 @@ if (isset($_POST['sair'])) {
 
         if ($('#addBookMessage') !== undefined) {
             setTimeout(() => {
-                $('#addBookMessage').fadeOut();
+                $('#addBookMessage').hide();
+            }, 2000)
+        }
+
+        if ($('#exists') !== undefined) {
+            setTimeout(() => {
+                $('#exists').hide();
             }, 2000)
         }
     });
@@ -497,6 +514,29 @@ if (isset($_POST['sair'])) {
             $("#catalogLink").attr("href", "catalog.php");
         } else {}
     });
+
+    $("#imagem").on("drop", () => {
+        function drop(ev) {
+            // Impedir que o arquivo seja aberto
+            ev.preventDefault();
+
+            if (ev.dataTransfer.items) {
+                // Interface DataTransferItemList para acessar o arquivo    
+                for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+                    // Se os itens soltos não forem arquivos, rejeite-os
+                    if (ev.dataTransfer.items[i].kind === 'file') {
+                        var file = ev.dataTransfer.items[i].getAsFile();
+                        console.log('... file[' + i + '].name = ' + file.name);
+                    }
+                }
+            } else {
+                // Interface DataTransfer para acessar o arquivo
+                for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+                    console.log('... file[' + i + '].name = ' + ev.dataTransfer.files[i].name);
+                }
+            }
+        }
+    })
 </script>
 
 </html>

@@ -11,13 +11,13 @@ if (isset($_POST['submit'])) {
     $senha = $_POST['senha'];
 
     // Verificar se há uma conta com o email inserido
-    $verifyEmail = "SELECT `email` FROM `cliente` WHERE `email` = '$email'";
+    $verifyEmail = "SELECT `CPF` FROM `cliente` WHERE `CPF` = '$cpf'";
     $verification = $conexao->query($verifyEmail);
 
     if ($verification->num_rows > 0) {
         echo "
         <script>
-        alert('Já existe uma conta cadastrada com esse email!');
+        alert('Já existe uma conta cadastrada com esses dados!');
         </script>";
     } else {
         // São armazenados no banco de dados os dados inseridos no formulário

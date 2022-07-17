@@ -13,7 +13,7 @@ if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSen
 
 $user = $_SESSION['UsuarioNome'];
 
-$viewBooks = "SELECT * FROM livro ORDER BY nome ASC";
+$viewBooks = "SELECT * FROM livro ORDER BY fk_genero ASC";
 $result = $conexao->query($viewBooks);
 
 // Funções auxiliares
@@ -56,7 +56,6 @@ function quantityBook()
         echo "";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -130,7 +129,7 @@ function quantityBook()
         }
 
         .card:hover {
-            transform: scale(1.05);
+            transform: scale(1.01);
         }
 
         .card-body {
@@ -139,7 +138,7 @@ function quantityBook()
             height: 100%;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            transition: .3s;
+            transition: .1s;
             position: absolute;
             opacity: 0;
         }
@@ -206,7 +205,19 @@ function quantityBook()
     <!-- pesquisa -->
     <section id="search-area">
         <div class="container pt-3 d-flex justify-content-center align-items-center flex-column">
-            <input class="form-control border-dark" id="search" type="search" placeholder="Pesquisar" spellcheck="false" style="width: 600px;">
+            <div class="row d-flex justify-content-between w-100">
+                <div class="col-md-6 col-12">
+                    <input class="form-control border-dark" id="search" type="search" placeholder="Pesquisar" spellcheck="false" style="width: 600px;">
+                </div>
+                <div class="col-md-4 col-12">
+                    <select class="form-control" name="genero" id="genderFilter">
+                        <option value="0">Todos</option>
+                        <option value="1">Programação</option>
+                        <option value="2">Infantil</option>
+                        <option value="3">Outro</option>
+                    </select>
+                </div>
+            </div>
             <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link text-white" href="#alugarLivro">Alugar</a>
@@ -246,6 +257,7 @@ function quantityBook()
                                         </div>
                                     </div>
                                     <img class='pb-1 img-fluid' src='../public/book image/" . $data['imagem'] . "'></img>
+                                    <input class='inputGenderHidden' type='hidden' name='hidden' value='" . $data['fk_genero'] . "' />
                                 </div>";
                         } else {
                             echo "
@@ -255,6 +267,7 @@ function quantityBook()
                                         <p tabindex='0'>Ano de lançamento: " . $data['ano'] . "</p>
                                         <p tabindex='0'>Preço do livro: R$" . str_replace('.', ',', $data['preco']) . "</p>
                                         <p tabindex='0'>Disponíveis: " . $data['quantidade'] . "</p>
+                                        
                                         <div class='btn-group' role='group'>
                                             <a href='#alugarLivro' class='btn btn-secondary'>Alugar</a>
                                             <a href='#comprarLivro' class='btn btn-secondary'>Comprar</a>
@@ -265,6 +278,7 @@ function quantityBook()
                                         </div>
                                     </div>
                                     <img class='pb-1 img-fluid' src='../public/book image/" . $data['imagem'] . "'></img>
+                                    <input class='inputGenderHidden' type='hidden' name='hidden' value='" . $data['fk_genero'] . "' />
                                 </div>";
                         }
                     }
@@ -458,13 +472,14 @@ function quantityBook()
 
 
     $(document).ready(() => {
+        // Evitar preenchimento automático de formulário do google
         setTimeout(() => {
             $('#email').removeAttr('disabled');
             $('#senha').removeAttr('disabled');
-        }, 100);
+        }, 400);
 
+        let $nothingToShow = $("#nothingToShow").html();
         // Caso não tenha nenhum livro no catálogo, os formulários não são mostrados
-        let $nothingToShow = $("#nothingToShow").html()
         if ($nothingToShow != undefined) {
             $("#home").css("display", "none")
             $("#search-area").css("display", "none")
@@ -474,20 +489,28 @@ function quantityBook()
             $("footer").removeClass("bg-light")
         };
 
-        checkBtnRent();
-        checkBtnPurchase();
+        // Se você atualiza a página, os livros serão mostrados de acordo com o filtro de gênero selecionado antes da atualização
+        // Ou seja, serão mostrados os livros que contêm o gênero armazenado no Local Storage
+        $localSelectValue = localStorage.getItem("filtro");
+        // Caso o valor do select seja 0 (todos), todos os livros serão mostrados
+        if ($localSelectValue == '0') {
+            $(".card").show()
+            // senão, serão mostrados somente os do gênero que você selecionou
+        } else {
+            inputValue($localSelectValue)
+            $("#genderFilter").val($localSelectValue)
+        };
 
-        // Condições que ao load da página, desabilitam os botões caso o livro dito não tenha estoque ou
-        // o usuário tenha inserido informações erradas
+        // Condições que ao load da página, desabilitam os botões caso o livro dito não tenha estoque ou o usuário tenha inserido informações erradas
         // Variáveis
+        let invalidRentBookName = $("#nomeInvalidoAluguel").html() !== undefined;
         let invalidPurchaseBookName = $("#nomeInvalidoCompra").html() !== undefined;
+
+        let wrongRentBookName = $("#nomeErradoAluguel").html() !== undefined
         let wrongPurchaseBookName = $("#nomeErradoCompra").html() !== undefined;
 
-        let invalidRentBookName = $("#nomeInvalidoAluguel").html() !== undefined;
-        let wrongRentBookName = $("#nomeErradoAluguel").html() !== undefined
-
-        let noPurchaseStock = $("#semEstoqueCompra").html() !== undefined;
         let noRentStock = $("#semEstoqueAluguel").html() !== undefined;
+        let noPurchaseStock = $("#semEstoqueCompra").html() !== undefined;
 
         // Botões do formulário de aluguel
         if (wrongRentBookName || invalidRentBookName || noRentStock) {
@@ -500,10 +523,20 @@ function quantityBook()
         };
 
         // Aplicar máscara no input de CPF no formulário de aluguel/compra (modal)
-        var $seuCampoCpf = $("#cpf");
-        $seuCampoCpf.mask('000.000.000-00');
+        var $campoCPF = $("#cpf");
+        $campoCPF.mask('000.000.000-00');
 
     });
+
+    // Função para mostrar o conteúdo do card, tanto com o uso do TAB ou mouse
+    for (const card of $(".card")) {
+        $(card).on("focusin mouseover", () => {
+            $(card).children(".card-body").css("opacity", "1")
+        })
+        $(card).on("focusout mouseout", () => {
+            $(card).children(".card-body").css("opacity", "0")
+        })
+    };
 
     // Filtro na barra de pesquisa
     $('#search').on("keypress input", function(e) {
@@ -521,6 +554,44 @@ function quantityBook()
         }
     });
 
+    $inputGender = $(".inputGenderHidden")
+    // Função auxiliar para evitar muita linha de código - filtra os livros através do select
+    function inputValue(value) {
+        $inputGender.each(function(index, element) {
+            $elVal = $(element).val();
+
+            if ($elVal == value) {
+                $(element).closest('.card').show()
+            } else {
+                $(element).closest(".card").hide()
+            }
+        })
+    };
+
+    $('#genderFilter').change(function() {
+        // Armazena o valor escolhido no select no local storage
+        $selectOption = $('#genderFilter').val();
+        localStorage.setItem("filtro", $selectOption);
+
+        // Opção 1
+        if ($selectOption == '0') {
+            $(".card").show()
+        }
+        // Opção 2
+        if ($selectOption == '1') {
+            inputValue('1');
+        }
+        // Opção 3
+        if ($selectOption == '2') {
+            inputValue('2');
+        }
+        // Opção 4
+        if ($selectOption == '3') {
+            inputValue('3');
+        }
+    });
+
+    // Seta volte ao topo
     $(window).scroll(function() {
         if ($(this).scrollTop() > 100) {
             $('.scrollToTop').fadeIn();
@@ -536,10 +607,6 @@ function quantityBook()
             return false;
         }
     });
-
-    if ($("#quantidadeLivro").val() == 0) {
-        $("#btnCompra").attr("disabled", "");
-    }
 
     // Variáveis formulário de aluguel
     $rent = $("#rentPrice").text();
@@ -652,16 +719,6 @@ function quantityBook()
             $("#catalog-home").attr("href", "./index.php");
         }
     });
-
-    // Função para mostrar o conteúdo do card, tanto com o uso do TAB ou mouse
-    for (const key of $(".card")) {
-        $(key).on("focusin mouseover", () => {
-            $(key).children(".card-body").css("opacity", "1")
-        })
-        $(key).on("focusout mouseout", () => {
-            $(key).children(".card-body").css("opacity", "0")
-        })
-    }
 </script>
 <script src="../public/js/theme.js"></script>
 <script src="../public/js/pace.js"></script>
