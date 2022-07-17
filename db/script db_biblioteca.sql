@@ -1,3 +1,4 @@
+-- drop database biblioteca;
 create database biblioteca;
 use biblioteca;
 
@@ -38,8 +39,16 @@ CREATE TABLE `livro` (
   `preco` float(8,2) NOT NULL,
   `quantidade` int(11) NOT NULL,
   `imagem` varchar(100) NOT NULL,
+  `fk_genero` int(11) not null,
   primary key(`idLivro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `genero` (
+  `idGenero` int(11) NOT NULL auto_increment,
+  `nome` varchar(45) NOT NULL,
+  primary key(`idGenero`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 ALTER TABLE `compra`
   ADD KEY `fk_cliente` (`fk_cliente`),
@@ -53,6 +62,13 @@ ALTER TABLE `emprestimo`
   ADD KEY `fk_cliente` (`fk_cliente`),
   ADD KEY `fk_livro` (`fk_livro`);
 
+ALTER TABLE `livro`
+  ADD CONSTRAINT `livro_ibfk_3` FOREIGN KEY (`fk_genero`) REFERENCES `genero` (`idGenero`);
+    
 ALTER TABLE `emprestimo`
   ADD CONSTRAINT `emprestimo_ibfk_2` FOREIGN KEY (`fk_cliente`) REFERENCES `cliente` (`idCliente`),
   ADD CONSTRAINT `emprestimo_ibfk_3` FOREIGN KEY (`fk_livro`) REFERENCES `livro` (`idLivro`);
+
+INSERT INTO genero(nome) VALUES ('programacao');
+insert into genero(nome) values ('infantil');
+insert into genero(nome) values ('outros');
