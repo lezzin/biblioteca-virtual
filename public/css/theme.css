@@ -27,6 +27,10 @@
   background-color: #252525 !important;
 }
 
+[data-theme="dark"] .bg-white {
+  background-color: #505050 !important;
+}
+
 [data-theme="dark"] .card {
   background-color: #202020 !important;
 }
