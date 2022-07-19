@@ -137,8 +137,6 @@ function quantityBook()
             background: #fff;
             width: 100%;
             height: 100%;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             transition: .1s;
             position: absolute;
             opacity: 0;
@@ -154,7 +152,8 @@ function quantityBook()
             display: none;
             position: absolute;
             padding: 10px;
-            width: 100%;
+            width: 525px;
+            z-index: 10000;
         }
 
         .list li {
@@ -165,16 +164,16 @@ function quantityBook()
             filter: grayscale(1);
         }
 
+        .card-body.indisponivel {
+            background: #ccc !important;
+        }
+
         .card-body h5,
         .card-body p {
             margin: 0;
             padding: 0;
             color: #000;
             font-weight: bold;
-        }
-
-        .active {
-            background: #ccc !important;
         }
     </style>
 </head>
@@ -227,13 +226,13 @@ function quantityBook()
     <section id="search-area">
         <div class="container pt-3 d-flex justify-content-center align-items-center flex-column">
             <div class="row d-flex justify-content-between w-100">
-                <div class="col-md-6 col-12">
-                    <input class="form-control border-dark" id="search" type="search" placeholder="Pesquisar" spellcheck="false" style="width: 600px;">
+                <div class="col-md-6 col-12 container-ul-input">
+                    <input class="form-control border-dark" id="search" type="search" placeholder="Pesquisar" spellcheck="false">
                     <ul class="list bg-light text-dark">
                     </ul>
                 </div>
                 <div class="col-md-4 col-12">
-                    <select class="form-control" name="genero" id="genderFilter">
+                    <select class="form-control bg-white text-dark" name="genero" id="genderFilter">
                         <option value="0">Todos</option>
                         <option value="1">Programação</option>
                         <option value="2">Infantil</option>
@@ -271,7 +270,7 @@ function quantityBook()
                         if ($data['quantidade'] == 0) {
                             echo "
                                 <div class='card m-1 rounded' style='width: 12rem; height='17rem'>
-                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center pb-1'>
+                                    <div class='card-body d-flex justify-content-center align-items-center flex-column text-center pb-1 indisponivel'>
                                         <h5 class='card-title pb-1' tabindex='0'>" . $data['nome'] . "</h5>
                                         <p tabindex='0'>Ano: "  . $data['ano'] . "</p>
                                         <p tabindex='0'>Preço: R$" . str_replace('.', ',', $data['preco']) . "</p>
@@ -581,36 +580,37 @@ function quantityBook()
                 var target = $(this).closest('.card'); // O método closest() encontra o parente mais próximo do elemento, de acordo com o nome inserido entre parênteses
                 if ($(this).html().toUpperCase().indexOf(word) === -1) {
                     target.fadeOut(500);
-                } else {
-                    target.fadeIn(500);
+                    return;
                 }
+                target.fadeIn(500);
             });
+            if (e.type == 'input') {
+                // Cria uma lista de nomes de livros de acordo com a palavra/letra digitada no input search
+                for (let i of names) {
+                    if (i.toLowerCase().startsWith(searchInput.val().toLowerCase()) && searchInput.val() != "") {
+                        let listItem = document.createElement("li");
 
-            // Cria uma lista de nomes de livros de acordo com a palavra/letra digitada no input search
-            for (let i of names) {
-                if (i.toLowerCase().startsWith(searchInput.val().toLowerCase()) && searchInput.val() != "") {
-                    let listItem = document.createElement("li");
+                        $(listItem).addClass("list-items");
+                        $(listItem).css("cursor", "pointer");
+                        $(listItem).attr("onclick", "displayNames('" + i + "')");
+                        $(listItem).attr("onkeypress", "displayNames('" + i + "')");
+                        $(listItem).attr("tabindex", "0");
 
-                    $(listItem).addClass("list-items");
-                    $(listItem).css("cursor", "pointer");
-                    $(listItem).attr("onclick", "displayNames('" + i + "')");
-                    $(listItem).attr("onkeypress", "displayNames('" + i + "')");
-                    $(listItem).attr("tabindex", "0");
+                        word = "<b>" + i.substr(0, searchInput.val().length) + "</b>";
+                        word += i.substr(searchInput.val().length);
 
-                    word = "<b>" + i.substr(0, searchInput.val().length) + "</b>";
-                    word += i.substr(searchInput.val().length);
+                        $(listItem).html(word);
+                        listBooks.append(listItem);
+                    }
+                }
 
-                    $(listItem).html(word);
-                    listBooks.append(listItem);
+                if (listBooks.children().length == 0) {
+                    listBooks.css("display", "none");
+                } else {
+                    listBooks.css("display", "block");
                 }
             }
-
-            if (listBooks.children().length == 0) {
-                listBooks.css("display", "none");
-            } else {
-                listBooks.css("display", "block");
-            }
-        };
+        }
     })
 
     // Função que mostra os itens da lista
