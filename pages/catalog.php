@@ -13,7 +13,7 @@ if ((!isset($_SESSION['UsuarioNome']) == true) and (!isset($_SESSION['UsuarioSen
 
 $user = $_SESSION['UsuarioNome'];
 
-$viewBooks = "SELECT * FROM livro ORDER BY fk_genero ASC";
+$viewBooks = "SELECT * FROM livro ORDER BY fk_genero, nome ASC";
 $result = $conexao->query($viewBooks);
 
 // Funções auxiliares
@@ -150,6 +150,17 @@ function quantityBook()
             height: 17rem;
         }
 
+        .list {
+            display: none;
+            position: absolute;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .list li {
+            list-style-type: none;
+        }
+
         .card img.indisponivel {
             filter: grayscale(1);
         }
@@ -160,6 +171,10 @@ function quantityBook()
             padding: 0;
             color: #000;
             font-weight: bold;
+        }
+
+        .active {
+            background: #ccc !important;
         }
     </style>
 </head>
@@ -214,6 +229,8 @@ function quantityBook()
             <div class="row d-flex justify-content-between w-100">
                 <div class="col-md-6 col-12">
                     <input class="form-control border-dark" id="search" type="search" placeholder="Pesquisar" spellcheck="false" style="width: 600px;">
+                    <ul class="list bg-light text-dark">
+                    </ul>
                 </div>
                 <div class="col-md-4 col-12">
                     <select class="form-control" name="genero" id="genderFilter">
@@ -239,7 +256,7 @@ function quantityBook()
     <!-- /pesquisa -->
 
     <!-- catalogo -->
-    <div class="container mt-4 mb-5" style="min-height:calc(427px);">
+    <div class="container mt-4 mb-5" style="min-height: 100vh;">
         <?php echo "<h3 class='text-center pb-4'>Olá $user, esse é o nosso catálogo.</h3>"; ?>
         <div class=" row d-flex justify-content-center align-items-center">
             <?php
@@ -298,8 +315,8 @@ function quantityBook()
     <!-- /catalogo -->
 
     <!-- aluguel e venda de livros -->
-    <section class="bg-light p-5" id="home" style="overflow-y: hidden;">
-        <div class="container rounded p-3">
+    <section class="bg-light p-5" id="home">
+        <div class="container rounded p-3" style="overflow-y: hidden;">
             <div class="row pt-5" id="alugarLivro">
 
                 <!-- formulario do aluguel de livros -->
@@ -547,21 +564,70 @@ function quantityBook()
         })
     };
 
-    // Filtro na barra de pesquisa
-    $('#search').on("keypress input", function(e) {
+    // Variáveis
+    let names = [];
+    $(".card-title").each(function(index, element) {
+        bookNameToFilter = $(element).html()
+        names.push(bookNameToFilter);
+    });
+    let searchInput = $("#search");
+    let listBooks = $(".list");
+    // Evento no input search
+    searchInput.on("keydown input", function(e) {
         if (e.keyCode == 13 || e.type == 'input') {
-            var word = $('#search').val().toUpperCase();
-            $('.card-title').each(function() {
-                // O método closest() encontra o parente mais próximo do elemento, de acordo com o nome inserido entre parênteses
-                var target = $(this).closest('.card');
+            removeNames();
+            var word = searchInput.val().toUpperCase();
+            $('.card-title').each(function() { // Filtro na barra de pesquisa
+                var target = $(this).closest('.card'); // O método closest() encontra o parente mais próximo do elemento, de acordo com o nome inserido entre parênteses
                 if ($(this).html().toUpperCase().indexOf(word) === -1) {
                     target.fadeOut(500);
                 } else {
                     target.fadeIn(500);
                 }
             });
-        }
-    });
+
+            // Cria uma lista de nomes de livros de acordo com a palavra/letra digitada no input search
+            for (let i of names) {
+                if (i.toLowerCase().startsWith(searchInput.val().toLowerCase()) && searchInput.val() != "") {
+                    let listItem = document.createElement("li");
+
+                    $(listItem).addClass("list-items");
+                    $(listItem).css("cursor", "pointer");
+                    $(listItem).attr("onclick", "displayNames('" + i + "')");
+                    $(listItem).attr("onkeypress", "displayNames('" + i + "')");
+                    $(listItem).attr("tabindex", "0");
+
+                    word = "<b>" + i.substr(0, searchInput.val().length) + "</b>";
+                    word += i.substr(searchInput.val().length);
+
+                    $(listItem).html(word);
+                    listBooks.append(listItem);
+                }
+            }
+
+            if (listBooks.children().length == 0) {
+                listBooks.css("display", "none");
+            } else {
+                listBooks.css("display", "block");
+            }
+        };
+    })
+
+    // Função que mostra os itens da lista
+    function displayNames(name) {
+        searchInput.val(name);
+        removeNames();
+        listBooks.css("display", "none")
+        searchInput.focus();
+    }
+
+    // Função que remove os items da lista
+    function removeNames() {
+        let items = $(".list-items");
+        items.each(function(index, item) {
+            item.remove();
+        });
+    }
 
     $inputGender = $(".inputGenderHidden")
     // Função auxiliar para evitar muita linha de código - filtra os livros através do select
@@ -737,7 +803,6 @@ function quantityBook()
         $rentButton.removeAttr("disabled");
         $rentButtonCalculator.removeAttr("disabled");
     };
-
     $quantityBooksInput = $("#quantidadeLivro")
 
     function checkBtnPurchase() {
@@ -750,11 +815,11 @@ function quantityBook()
         $purchaseButton.removeAttr("disabled");
     };
 
-    // Eventos nos botões de aluguel
+    // Eventos nos botões de aluguel 
     $rentBookInput.on("input", checkBtnRent);
     $daysInput.on("input", checkBtnRent);
 
-    //Eventos nos botões de compra
+    //Eventos nos botões de compra 
     $purchaseBookName.on("input", checkBtnPurchase);
     $quantityBooksInput.on("input", checkBtnPurchase);
 
@@ -763,6 +828,7 @@ function quantityBook()
             $("#form-addBook").attr("href", "./index.php#form");
         }
     });
+
     $("#catalog-home").click(() => {
         if (confirm("Voltar para a página inicial?")) {
             $("#catalog-home").attr("href", "./index.php");
