@@ -34,7 +34,7 @@ CREATE TABLE `emprestimo` (
 
 CREATE TABLE `livro` (
   `idLivro` int(11) NOT NULL auto_increment,
-  `nome` varchar(45) NOT NULL,
+  `nome` varchar(100) NOT NULL,
   `ano` int(11) NOT NULL,
   `preco` float(8,2) NOT NULL,
   `quantidade` int(11) NOT NULL,
