@@ -1,6 +1,16 @@
-<h1>Biblioteca virtual</h1>
+# Biblioteca virtual
 
-Nesse projeto, você precisará do MySQL e XAMPP para poder utilizar a página... os downloads se encontram aqui: <br>[MySQL](https://dev.mysql.com/downloads/workbench/) e [XAMPP](https://www.apachefriends.org/pt_br/download.html)
+<div style="display: inline_block"><br>
+    <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white"  alt="PHP Logo" align="center" />
+    <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white"  alt="Bootstrap Logo" align="center" />
+    <img src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"  alt="jQuery Logo" align="center" />
+    <img src="https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white"  alt="MySQL Logo" align="center" />
+</div><br>
+
+![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=lezzin&repo=biblioteca-virtual&theme=dark&show_owner=true)
+
+
+## Nesse projeto, você precisará do MySQL e XAMPP para poder utilizar a página... os downloads se encontram aqui: [MySQL](https://dev.mysql.com/downloads/workbench/) e [XAMPP](https://www.apachefriends.org/pt_br/download.html)<br><br>
 
 ## Tutoriais
 
@@ -19,7 +29,7 @@ Nesse projeto, você precisará do MySQL e XAMPP para poder utilizar a página..
  - Agora, é só clicar em login.php e será aberta a página de login.
 
 4- Clique em "Criar nova conta" e insira os dados que se pede. Inseridos, volte para a página de login e coloque o nome de usuário e senha inseridos no cadastro.
- - Você será dimensionado para a página inicial e assim, poderá navegar pelas funções da biblioteca.
+ - Você será dimensionado para a página inicial e assim, poderá navegar pelas funções da biblioteca.<br><br>
 
 ### AVISOS
 
@@ -32,8 +42,9 @@ Nesse projeto, você precisará do MySQL e XAMPP para poder utilizar a página..
   <br>
   *Vale ressaltar que esse projeto foi feito a fins de estudos, assim, poderá apresentar erros.*<br>
   Caso queira me dar alguma crítica construtiva, dizer algum erro ou tirar dúvidas, me contate em minhas redes sociais:<br>
-  <a href="https://www.instagram.com/leandroadrian_/">Instagram</a><br>
-  <a href="https://api.whatsapp.com/send?phone=35997242338">Whatsapp</a><br>
-  <a href="mailto:lezzin.contato@gmail.com">E-mail</a>
-  
-  Até logo :)
+
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/leandroadrian_/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/leandro-adrian)
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/LeandroAdrian)
+
+Até o próximo projeto!
